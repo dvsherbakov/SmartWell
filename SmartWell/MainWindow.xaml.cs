@@ -1,28 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SmartWell.Models;
+using SmartWell.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SmartWell
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
             InitializeComponent();
+            InitControls();
+        }
+
+        private void InitControls()
+        {
+            var MainWinsowDataContext = new MainWindowViewModel();
+
+            var pl = new Pipes();
+            CbCasingShoe.Items.Clear();
+            CbCasingShoe.ItemsSource = pl.GetList(1);
+            CbCasingShoe.SelectedValuePath = "Key";
+            CbCasingShoe.DisplayMemberPath = "Value";
+            CbCasingShoe.SelectedIndex = 17;
+
+            CbCasingPipe.Items.Clear();
+            CbCasingPipe.ItemsSource = pl.GetList(1);
+            CbCasingPipe.SelectedValuePath = "Key";
+            CbCasingPipe.DisplayMemberPath = "Value";
+            CbCasingPipe.SelectedIndex = 10;
+
+            CbCasingLiner.Items.Clear();
+            CbCasingLiner.ItemsSource = pl.GetList(3);
+            CbCasingLiner.SelectedValuePath = "Key";
+            CbCasingLiner.DisplayMemberPath = "Value";
+            CbCasingLiner.SelectedIndex = 10;
+            DataContext = MainWinsowDataContext;
         }
     }
 }
