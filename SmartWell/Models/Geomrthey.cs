@@ -80,5 +80,10 @@ namespace SmartWell.Models
         {
             return Height;
         }
+
+        public double GetDOut()
+        {
+            return Dout;
+        }
     }
 }
