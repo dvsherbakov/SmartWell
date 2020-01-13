@@ -39,7 +39,17 @@ namespace SmartWell
             CbCasingLiner.ItemsSource = pl.GetList(2);
             CbCasingLiner.SelectedValuePath = "Key";
             CbCasingLiner.DisplayMemberPath = "Value";
-            
+
+            CbTubingUpperSuspension.Items.Clear();
+            CbTubingUpperSuspension.ItemsSource = pl.GetList(2);
+            CbTubingUpperSuspension.SelectedValuePath = "Key";
+            CbTubingUpperSuspension.DisplayMemberPath = "Value";
+
+            CbTubingLowerSuspension.Items.Clear();
+            CbTubingLowerSuspension.ItemsSource = pl.GetList(3);
+            CbTubingLowerSuspension.SelectedValuePath = "Key";
+            CbTubingLowerSuspension.DisplayMemberPath = "Value";
+
             DataContext = MainWinsowDataContext;
         }
 
@@ -55,6 +65,8 @@ namespace SmartWell
             var w1 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingShoe.SelectedItem).Key).GetDOut();
             var w2 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingPipe.SelectedItem).Key).GetDOut();
             var w3 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingLiner.SelectedItem).Key).GetDOut();
+            var n1 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut();
+            var n2 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut();
             var MaxDiam = (new double[] { w1, w2, w3 }).Max();
             var fHeight = MainWinsowDataContext.CasingShoeLenght + MainWinsowDataContext.CasingPipeLenght + MainWinsowDataContext.CasingLinerLenght;
             var dx = sWidth / 3 / MaxDiam;
@@ -95,18 +107,36 @@ namespace SmartWell
             Canvas.SetLeft(rect3, sWidth / 2 - dx * w3 / 2);
             Canvas.SetTop(rect3, MainWinsowDataContext.CasingShoeLenght * dy + MainWinsowDataContext.CasingPipeLenght * dy);
             gPict.Children.Add(rect3);
+
+            var rect4 = new System.Windows.Shapes.Rectangle
+            {
+                Stroke = new SolidColorBrush(Colors.Brown),
+                StrokeThickness = 2,
+                Fill = new SolidColorBrush(Colors.Brown),
+                Width = dx * n1,
+                Height = MainWinsowDataContext.TubingUpperSuspensionLenght * dy
+            };
+            Canvas.SetLeft(rect4, sWidth / 2 - dx * n1 / 2);
+            Canvas.SetTop(rect4, 0);
+            gPict.Children.Add(rect4);
+
+            var rect5 = new System.Windows.Shapes.Rectangle
+            {
+                Stroke = new SolidColorBrush(Colors.DarkCyan),
+                StrokeThickness = 2,
+                Fill = new SolidColorBrush(Colors.DarkCyan),
+                Width = dx * n2,
+                Height = MainWinsowDataContext.TubingLowerSuspensionLenght * dy
+            };
+            Canvas.SetLeft(rect5, sWidth / 2 - dx * n2 / 2);
+            Canvas.SetTop(rect5, MainWinsowDataContext.TubingUpperSuspensionLenght * dy);
+            gPict.Children.Add(rect5);
             //var wMax = new int[] { w1, w2, w3 }.Ma
         }
 
         protected override void OnRender(DrawingContext dc)
         {
-            //dc.DrawLine(new Pen(Brushes.Blue, 2.0),
-            //    new Point(0.0, 0.0),
-            //    new Point(ActualWidth, ActualHeight));
-            //dc.DrawLine(new Pen(Brushes.Green, 2.0),
-            //    new Point(ActualWidth, 0.0),
-            //    new Point(0.0, ActualHeight));
-
+            
             SetCasingShema();
         }
     }

@@ -23,6 +23,16 @@ namespace SmartWell.ViewModels
         public double CasingLinerHeight { get; set; }
         public int CasingLinerIndex { get; set; }
         public KeyValuePair<int, string> CasingLinerSelected { get; set; }
+        //НКТ вехняя подвеска
+        public double TubingUpperSuspensionLenght { get; set; }
+        public double TubingUpperSuspensionHeight { get; set; }
+        public int TubingUpperSuspensionIndex { get; set; }
+        public KeyValuePair<int, string> TubingUpperSuspensionSelected { get; set; }
+        //НКТ вехняя подвеска
+        public double TubingLowerSuspensionLenght { get; set; }
+        public double TubingLowerSuspensionHeight { get; set; }
+        public int TubingLowerSuspensionIndex { get; set; }
+        public KeyValuePair<int, string> TubingLowerSuspensionSelected { get; set; }
 
         public MainWindowViewModel()
         {
@@ -33,9 +43,18 @@ namespace SmartWell.ViewModels
             CasingPipeLenght = 1850.0;
             CasingPipeHeight = 1530.0;
             CasingPipeIndex = 10;
+
             CasingLinerLenght = 1150.0;
             CasingLinerHeight = 880.0;
             CasingLinerIndex = 3;
+
+            TubingUpperSuspensionLenght = 1280.0;
+            TubingUpperSuspensionHeight = 1186.0;
+            //TubingUpperSuspensionIndex = 6;
+
+            TubingLowerSuspensionLenght = 680.0;
+            TubingLowerSuspensionHeight = 586.0;
+            //TubingLowerSuspensionIndex = 0;
         }
     }
 }

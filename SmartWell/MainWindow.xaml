@@ -129,6 +129,62 @@
                         </StackPanel>
                     </Expander>
 
+                    <Expander Header="Нижняя подвеска НКТ"   Grid.Column="0" Height="Auto" IsExpanded="False">
+                        <StackPanel Height="Auto">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition ></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="6*"></ColumnDefinition>
+                                    <ColumnDefinition  Width="4*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">Тип</Label>
+                                <ComboBox Grid.Column="1" Grid.Row="0"  Grid.ColumnSpan="2" 
+                                          SelectedIndex="{Binding TubingLowerSuspensionIndex}"
+                                      x:Name="CbTubingUpperSuspension"/>
+                                <Label Grid.Column="0" Grid.Row ="1" HorizontalAlignment="Right">Длина по трубе</Label>
+                                <TextBox Grid.Column="1" Grid.Row="1" 
+                                         Text="{Binding TubingLowerSuspensionLenght}"></TextBox>
+                                <Label Grid.Column="2" Grid.Row="1" ></Label>
+                                <Label Grid.Column="0" Grid.Row ="2" HorizontalAlignment="Right">Вертикальная глубина</Label>
+                                <TextBox Grid.Column="1" Grid.Row="2" 
+                                         Text="{Binding TubingLowerSuspensionHeight}"></TextBox>
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="Верхняя подвеска НКТ"   Grid.Column="0" Height="Auto" IsExpanded="False">
+                        <StackPanel Height="Auto">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition ></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="6*"></ColumnDefinition>
+                                    <ColumnDefinition  Width="4*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">Тип</Label>
+                                <ComboBox Grid.Column="1" Grid.Row="0"  Grid.ColumnSpan="2" 
+                                          SelectedIndex="{Binding TubingUpperSuspensionIndex}"
+                                      x:Name="CbTubingLowerSuspension"/>
+                                <Label Grid.Column="0" Grid.Row ="1" HorizontalAlignment="Right">Длина по трубе</Label>
+                                <TextBox Grid.Column="1" Grid.Row="1" 
+                                         Text="{Binding TubingUpperSuspensionLenght}"></TextBox>
+                                <Label Grid.Column="2" Grid.Row="1" ></Label>
+                                <Label Grid.Column="0" Grid.Row ="2" HorizontalAlignment="Right">Вертикальная глубина</Label>
+                                <TextBox Grid.Column="1" Grid.Row="2" 
+                                         Text="{Binding TubingUpperSuspensionHeight}"></TextBox>
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
                 </StackPanel>
            
             </ScrollViewer>
