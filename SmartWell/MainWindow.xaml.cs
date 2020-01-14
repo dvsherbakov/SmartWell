@@ -29,7 +29,7 @@ namespace SmartWell
             CbCasingShoe.ItemsSource = pl.GetList(1);
             CbCasingShoe.SelectedValuePath = "Key";
             CbCasingShoe.DisplayMemberPath = "Value";
-            //MainWinsowDataContext.CasingShoeSelected = CbCasingShoe.ItemsSource[17];
+            
             CbCasingPipe.Items.Clear();
             CbCasingPipe.ItemsSource = pl.GetList(1);
             CbCasingPipe.SelectedValuePath = "Key";
@@ -56,9 +56,9 @@ namespace SmartWell
         private void SetCasingShema()
         {
             var pl = new Pipes();
-            //gPict.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            //gPict.Arrange(new Rect(0, 0, gPict.DesiredSize.Width, gPict.DesiredSize.Height));
+            
             UpdateLayout();
+            gPict.Children.Clear();
 
             var sWidth = gPict.ActualWidth;
             var sHeight = gPict.ActualHeight;
@@ -93,7 +93,7 @@ namespace SmartWell
                 Height = MainWinsowDataContext.CasingPipeLenght * dy
             };
             Canvas.SetLeft(rect2, sWidth / 2 - dx * w2 / 2);
-            Canvas.SetTop(rect2, MainWinsowDataContext.CasingShoeLenght * dy);
+            Canvas.SetTop(rect2,0);
             gPict.Children.Add(rect2);
 
             var rect3 = new System.Windows.Shapes.Rectangle
@@ -105,7 +105,7 @@ namespace SmartWell
                 Height = MainWinsowDataContext.CasingLinerLenght * dy
             };
             Canvas.SetLeft(rect3, sWidth / 2 - dx * w3 / 2);
-            Canvas.SetTop(rect3, MainWinsowDataContext.CasingShoeLenght * dy + MainWinsowDataContext.CasingPipeLenght * dy);
+            Canvas.SetTop(rect3, MainWinsowDataContext.CasingPipeLenght * dy);
             gPict.Children.Add(rect3);
 
             var rect4 = new System.Windows.Shapes.Rectangle
@@ -136,7 +136,6 @@ namespace SmartWell
 
         protected override void OnRender(DrawingContext dc)
         {
-            
             SetCasingShema();
         }
     }
