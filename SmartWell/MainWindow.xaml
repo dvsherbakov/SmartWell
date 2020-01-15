@@ -28,8 +28,15 @@
         <Canvas Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
                 Width="Auto" Height="Auto"
                 x:Name="gPict"
+                MouseMove="gDigit_MouseMove"
                 Margin="3"/>
-        
+
+        <Canvas Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
+                Width="Auto" Height="Auto"
+                x:Name="gDigit"
+                MouseDown="gDigit_MouseMove"
+                Margin="3"/>
+
         <Border Background="GhostWhite" 
                  Grid.Column="2" Grid.Row="1"
                     BorderBrush="Silver" 

@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace SmartWell
 {
@@ -137,6 +138,50 @@ namespace SmartWell
         protected override void OnRender(DrawingContext dc)
         {
             SetCasingShema();
+        }
+
+        private void gDigit_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            UpdateLayout();
+            
+            var sWidth = gPict.ActualWidth;
+            var sHeight = gPict.ActualHeight;
+            
+            var fHeight = MainWinsowDataContext.CasingShoeLenght + MainWinsowDataContext.CasingPipeLenght + MainWinsowDataContext.CasingLinerLenght;
+            
+            var dy = sHeight / fHeight;
+            var t = e.GetPosition(gPict);
+            gDigit.Children.Clear();
+            var rLine = new Line
+            {
+                Stroke = Brushes.LightSteelBlue,
+                X1 = sWidth - 20,
+                X2 = sWidth - 75,
+                Y1 = t.Y,
+                Y2 = t.Y,
+                StrokeThickness = 2
+            };
+            gDigit.Children.Add(rLine);
+
+            var lLine = new Line
+            {
+                Stroke = Brushes.LightSteelBlue,
+                X1 = 20,
+                X2 = 75,
+                Y1 = t.Y,
+                Y2 = t.Y,
+                StrokeThickness = 2
+            };
+            gDigit.Children.Add(lLine);
+
+            TextBlock textBlock = new TextBlock
+            {
+                Text = (t.Y/dy).ToString("F0"),
+                Foreground = new SolidColorBrush(Colors.DarkGray)
+            };
+            Canvas.SetLeft(textBlock, 30);
+            Canvas.SetTop(textBlock, t.Y);
+            gDigit.Children.Add(textBlock);
         }
     }
 }
