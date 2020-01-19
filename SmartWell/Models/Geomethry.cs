@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartWell.Models
 {
-    public class Geomrthey : object
+    public class Geomethry : object
     {
         //Объект для параметров трубы
         // private int Index { get; set; }
@@ -16,7 +16,7 @@ namespace SmartWell.Models
         private double Len { get; set; }
         private double Height { get; set; }
 
-        public Geomrthey(double pd, double pw)
+        public Geomethry(double pd, double pw)
         {
             //Index = pi;
             Dout = pd;
@@ -24,7 +24,7 @@ namespace SmartWell.Models
             Din = pd - 2 * pw;
         }
 
-        public Geomrthey(double pd, double pw, double len)
+        public Geomethry(double pd, double pw, double len)
         {
             Dout = pd;
             W = pw;
@@ -32,7 +32,7 @@ namespace SmartWell.Models
             Len = len;
         }
 
-        public Geomrthey(CGeomethry g)
+        public Geomethry(CGeomethry g)
         {
             //Index = g.Index;
             Dout = g.Dout;

@@ -58,10 +58,10 @@ namespace SmartWell.Models
                 $"D={itm.Dout} мм, S={itm.W} мм");
         }
 
-        public Geomrthey GetByIndex(int i)
+        public Geomethry GetByIndex(int i)
         {
             var tmp = _columns.First(x => x.Index == i);
-            return new Geomrthey(tmp.Dout, tmp.W);
+            return new Geomethry(tmp.Dout, tmp.W);
         }
     }
 }

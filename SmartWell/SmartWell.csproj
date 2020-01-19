@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\VolumeGradient.cs" />
+    <Compile Include="Models\VolumeItem.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -71,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\CGeomethry.cs" />
-    <Compile Include="Models\Geomrthey.cs" />
+    <Compile Include="Models\Geomethry.cs" />
     <Compile Include="Models\Pipes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

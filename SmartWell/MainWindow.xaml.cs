@@ -77,7 +77,7 @@ namespace SmartWell
             {
                 Stroke = new SolidColorBrush(Colors.Blue),
                 StrokeThickness = 2,
-                Fill = new SolidColorBrush(Colors.DarkBlue),
+                Fill = new VolumeGradient(Colors.DarkBlue).GetValue(),
                 Width = dx * w1,
                 Height = MainWinsowDataContext.CasingShoeLenght * dy
             };
@@ -89,7 +89,7 @@ namespace SmartWell
             {
                 Stroke = new SolidColorBrush(Colors.Green),
                 StrokeThickness = 2,
-                Fill = new SolidColorBrush(Colors.DarkGreen),
+                Fill = new VolumeGradient(Colors.DarkGreen).GetValue(),
                 Width = dx * w2,
                 Height = MainWinsowDataContext.CasingPipeLenght * dy
             };
@@ -101,7 +101,7 @@ namespace SmartWell
             {
                 Stroke = new SolidColorBrush(Colors.Red),
                 StrokeThickness = 2,
-                Fill = new SolidColorBrush(Colors.DarkRed),
+                Fill = new VolumeGradient(Colors.DarkRed).GetValue(),
                 Width = dx * w3,
                 Height = MainWinsowDataContext.CasingLinerLenght * dy
             };
@@ -113,7 +113,7 @@ namespace SmartWell
             {
                 Stroke = new SolidColorBrush(Colors.Brown),
                 StrokeThickness = 2,
-                Fill = new SolidColorBrush(Colors.Brown),
+                Fill = new VolumeGradient(Colors.Brown).GetValue(),
                 Width = dx * n1,
                 Height = MainWinsowDataContext.TubingUpperSuspensionLenght * dy
             };
@@ -125,7 +125,7 @@ namespace SmartWell
             {
                 Stroke = new SolidColorBrush(Colors.DarkCyan),
                 StrokeThickness = 2,
-                Fill = new SolidColorBrush(Colors.DarkCyan),
+                Fill = new VolumeGradient(Colors.DarkCyan).GetValue(),
                 Width = dx * n2,
                 Height = MainWinsowDataContext.TubingLowerSuspensionLenght * dy
             };
