@@ -69,11 +69,26 @@ namespace SmartWell
             var n1 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut();
             var n2 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut();
             var MaxDiam = (new double[] { w1, w2, w3 }).Max();
-            var fHeight = MainWinsowDataContext.CasingShoeLenght + MainWinsowDataContext.CasingPipeLenght + MainWinsowDataContext.CasingLinerLenght;
+            var fHeight = MainWinsowDataContext.CasingPipeLenght + MainWinsowDataContext.CasingLinerLenght;
             var dx = sWidth / 3 / MaxDiam;
             var dy = sHeight / fHeight;
 
-            var rect = new System.Windows.Shapes.Rectangle
+            var lenList = new List<VolumeItem>
+            {
+                new VolumeItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingPipeLenght },
+                new VolumeItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingLinerLenght },
+                new VolumeItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght },
+                new VolumeItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingLowerSuspensionLenght }
+            }.OrderBy(x=>x.MarkLabel).ToArray();
+
+            var rectsB = new List<Rectangle>();
+            var rectsF = new List<Rectangle>();
+            for (var i=0; i<lenList.Length; i++)
+            {
+
+            }
+
+            var rect = new Rectangle
             {
                 Stroke = new SolidColorBrush(Colors.Blue),
                 StrokeThickness = 2,
@@ -85,7 +100,7 @@ namespace SmartWell
             Canvas.SetTop(rect, 0);
             gPict.Children.Add(rect);
 
-            var rect2 = new System.Windows.Shapes.Rectangle
+            var rect2 = new Rectangle
             {
                 Stroke = new SolidColorBrush(Colors.Green),
                 StrokeThickness = 2,
@@ -97,7 +112,7 @@ namespace SmartWell
             Canvas.SetTop(rect2,0);
             gPict.Children.Add(rect2);
 
-            var rect3 = new System.Windows.Shapes.Rectangle
+            var rect3 = new Rectangle
             {
                 Stroke = new SolidColorBrush(Colors.Red),
                 StrokeThickness = 2,
@@ -109,7 +124,7 @@ namespace SmartWell
             Canvas.SetTop(rect3, MainWinsowDataContext.CasingPipeLenght * dy);
             gPict.Children.Add(rect3);
 
-            var rect4 = new System.Windows.Shapes.Rectangle
+            var rect4 = new Rectangle
             {
                 Stroke = new SolidColorBrush(Colors.Brown),
                 StrokeThickness = 2,
@@ -121,7 +136,7 @@ namespace SmartWell
             Canvas.SetTop(rect4, 0);
             gPict.Children.Add(rect4);
 
-            var rect5 = new System.Windows.Shapes.Rectangle
+            var rect5 = new Rectangle
             {
                 Stroke = new SolidColorBrush(Colors.DarkCyan),
                 StrokeThickness = 2,

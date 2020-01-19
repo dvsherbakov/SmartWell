@@ -39,4 +39,17 @@ namespace SmartWell.Models
             return fiveColorLGB;
         }
     }
+
+    static class VolumeGradients
+    {
+        public static List<VolumeGradient> Volumes()
+        {
+            return new List<VolumeGradient>() { 
+                new VolumeGradient(Colors.BlueViolet),
+                new VolumeGradient(Colors.Brown),
+                new VolumeGradient(Colors.DarkKhaki),
+                new VolumeGradient(Colors.DarkOliveGreen)
+            };
+        }
+    }
 }
