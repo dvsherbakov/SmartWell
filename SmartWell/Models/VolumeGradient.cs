@@ -42,14 +42,18 @@ namespace SmartWell.Models
 
     static class VolumeGradients
     {
-        public static List<VolumeGradient> Volumes()
+        public static Color[] Volumes()
         {
-            return new List<VolumeGradient>() { 
-                new VolumeGradient(Colors.BlueViolet),
-                new VolumeGradient(Colors.Brown),
-                new VolumeGradient(Colors.DarkKhaki),
-                new VolumeGradient(Colors.DarkOliveGreen)
-            };
+            return new List<Color>() { 
+                Colors.BlueViolet,
+                Colors.Brown,
+                Colors.DarkKhaki,
+                Colors.DarkOliveGreen,
+                Colors.DarkBlue,
+                Colors.DarkGreen,
+                Colors.DarkTurquoise,
+                Colors.DarkSalmon
+            }.ToArray();
         }
     }
 }
