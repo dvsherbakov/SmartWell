@@ -73,12 +73,12 @@ namespace SmartWell
             var dx = sWidth / 3 / MaxDiam;
             var dy = sHeight / fHeight;
 
-            var lenList = new List<VolumeItem>
+            var lenList = new List<LengthItem>
             {
-                new VolumeItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingPipeLenght },
-                new VolumeItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingPipeLenght+MainWinsowDataContext.CasingLinerLenght },
-                new VolumeItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght },
-                new VolumeItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght+MainWinsowDataContext.TubingLowerSuspensionLenght }
+                new LengthItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingPipeLenght },
+                new LengthItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingPipeLenght+MainWinsowDataContext.CasingLinerLenght },
+                new LengthItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght },
+                new LengthItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght+MainWinsowDataContext.TubingLowerSuspensionLenght }
             }.OrderBy(x=>x.MarkLabel).ToArray();
 
             var rectsB = new List<Rectangle>();
@@ -130,66 +130,6 @@ namespace SmartWell
                 prevMark = (int)itm.MarkLabel;
             };
 
-            //var rect = new Rectangle
-            //{
-            //    Stroke = new SolidColorBrush(Colors.Blue),
-            //    StrokeThickness = 2,
-            //    Fill = new VolumeGradient(Colors.DarkBlue).GetValue(),
-            //    Width = dx * w1,
-            //    Height = MainWinsowDataContext.CasingShoeLenght * dy
-            //};
-            //Canvas.SetLeft(rect, sWidth/2 - dx * w1/2);
-            //Canvas.SetTop(rect, 0);
-            //gPict.Children.Add(rect);
-
-            //var rect2 = new Rectangle
-            //{
-            //    Stroke = new SolidColorBrush(Colors.Green),
-            //    StrokeThickness = 2,
-            //    Fill = new VolumeGradient(Colors.DarkGreen).GetValue(),
-            //    Width = dx * w2,
-            //    Height = MainWinsowDataContext.CasingPipeLenght * dy
-            //};
-            //Canvas.SetLeft(rect2, sWidth / 2 - dx * w2 / 2);
-            //Canvas.SetTop(rect2,0);
-            //gPict.Children.Add(rect2);
-
-            //var rect3 = new Rectangle
-            //{
-            //    Stroke = new SolidColorBrush(Colors.Red),
-            //    StrokeThickness = 2,
-            //    Fill = new VolumeGradient(Colors.DarkRed).GetValue(),
-            //    Width = dx * w3,
-            //    Height = MainWinsowDataContext.CasingLinerLenght * dy
-            //};
-            //Canvas.SetLeft(rect3, sWidth / 2 - dx * w3 / 2);
-            //Canvas.SetTop(rect3, MainWinsowDataContext.CasingPipeLenght * dy);
-            //gPict.Children.Add(rect3);
-
-            //var rect4 = new Rectangle
-            //{
-            //    Stroke = new SolidColorBrush(Colors.Brown),
-            //    StrokeThickness = 2,
-            //    Fill = new VolumeGradient(Colors.Brown).GetValue(),
-            //    Width = dx * n1,
-            //    Height = MainWinsowDataContext.TubingUpperSuspensionLenght * dy
-            //};
-            //Canvas.SetLeft(rect4, sWidth / 2 - dx * n1 / 2);
-            //Canvas.SetTop(rect4, 0);
-            //gPict.Children.Add(rect4);
-
-            //var rect5 = new Rectangle
-            //{
-            //    Stroke = new SolidColorBrush(Colors.DarkCyan),
-            //    StrokeThickness = 2,
-            //    Fill = new VolumeGradient(Colors.DarkCyan).GetValue(),
-            //    Width = dx * n2,
-            //    Height = MainWinsowDataContext.TubingLowerSuspensionLenght * dy
-            //};
-            //Canvas.SetLeft(rect5, sWidth / 2 - dx * n2 / 2);
-            //Canvas.SetTop(rect5, MainWinsowDataContext.TubingUpperSuspensionLenght * dy);
-            //gPict.Children.Add(rect5);
-            //var wMax = new int[] { w1, w2, w3 }.Ma
         }
 
         protected override void OnRender(DrawingContext dc)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartWell.Models
 {
-    class VolumeItem
+    class LengthItem
     {
         public int Layer { get; set; }
         public double MarkLabel { get; set; }
