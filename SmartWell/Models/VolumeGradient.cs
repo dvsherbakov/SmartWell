@@ -22,13 +22,13 @@ namespace SmartWell.Models
             };
             GradientStop blueGS = new GradientStop
             {
-                Color = color,
-                Offset = 0.0
+                Color = Colors.LightGray,
+                Offset = 0.2
             };
             fiveColorLGB.GradientStops.Add(blueGS);
             GradientStop orangeGS = new GradientStop
             {
-                Color = Colors.LightGray,
+                Color = color,
                 Offset = 0.8
             };
             fiveColorLGB.GradientStops.Add(orangeGS);
@@ -49,7 +49,7 @@ namespace SmartWell.Models
                 Colors.Brown,
                 Colors.DarkKhaki,
                 Colors.DarkOliveGreen,
-                Colors.DarkBlue,
+                Colors.Chocolate,
                 Colors.DarkGreen,
                 Colors.DarkTurquoise,
                 Colors.DarkSalmon

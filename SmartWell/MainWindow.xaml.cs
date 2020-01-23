@@ -84,31 +84,51 @@ namespace SmartWell
             var rectsB = new List<Rectangle>();
             var rectsF = new List<Rectangle>();
             var clrs = VolumeGradients.Volumes();
-            var top = 0;
-            var summLen = 0;
+            // var top = 0;
+            
             var counter = 0;
+            var prevMark = 0;
             foreach (var itm in lenList)
             {
-                var width = summLen >= MainWinsowDataContext.CasingPipeLenght ? w2 : w1;
+                var width = itm.MarkLabel > MainWinsowDataContext.CasingPipeLenght ? w2 : w1;
+                var rectangle = new Rectangle
+                {
+                    Stroke = new SolidColorBrush(Colors.Gray),//clrs[counter]),
+                    StrokeThickness = 2,
+                    Fill = new VolumeGradient(clrs[counter]).GetValue(),
+                    Width = dx * width,
+                    Height = itm.MarkLabel * dy - prevMark*dy
+                };
+                Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
+                Canvas.SetTop(rectangle, prevMark * dy);
+                gPict.Children.Add(rectangle);
+               // top = (int)prevMark;
+                counter++;
+                
+                prevMark = (int)itm.MarkLabel;
+            };
+
+            
+            prevMark = 0;
+            foreach (var itm in lenList.Where(x=>x.MarkLabel<= MainWinsowDataContext.TubingUpperSuspensionLenght + MainWinsowDataContext.TubingLowerSuspensionLenght))
+            {
+                var width = itm.MarkLabel > MainWinsowDataContext.TubingUpperSuspensionLenght ? n2 : n1;
                 var rectangle = new Rectangle
                 {
                     Stroke = new SolidColorBrush(clrs[counter]),
                     StrokeThickness = 2,
                     Fill = new VolumeGradient(clrs[counter]).GetValue(),
                     Width = dx * width,
-                    Height = itm.MarkLabel * dy
+                    Height = itm.MarkLabel * dy - prevMark * dy
                 };
                 Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
-                Canvas.SetTop(rectangle, top * dy);
+                Canvas.SetTop(rectangle, prevMark * dy);
                 gPict.Children.Add(rectangle);
-                top = (int)(summLen);
+                // top = (int)prevMark;
                 counter++;
-                summLen += (int)itm.MarkLabel;
-            };
-            for (var i=0; i<lenList.Length; i++)
-            {
 
-            }
+                prevMark = (int)itm.MarkLabel;
+            };
 
             //var rect = new Rectangle
             //{
@@ -184,7 +204,7 @@ namespace SmartWell
             var sWidth = gPict.ActualWidth;
             var sHeight = gPict.ActualHeight;
             
-            var fHeight = MainWinsowDataContext.CasingShoeLenght + MainWinsowDataContext.CasingPipeLenght + MainWinsowDataContext.CasingLinerLenght;
+            var fHeight = MainWinsowDataContext.CasingPipeLenght + MainWinsowDataContext.CasingLinerLenght;
             
             var dy = sHeight / fHeight;
             var t = e.GetPosition(gPict);
