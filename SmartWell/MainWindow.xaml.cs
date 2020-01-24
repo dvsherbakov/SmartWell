@@ -179,6 +179,18 @@ namespace SmartWell
             Canvas.SetLeft(textBlock, 30);
             Canvas.SetTop(textBlock, t.Y);
             gDigit.Children.Add(textBlock);
+
+            if (t.Y > 0)
+            {
+                TextBlock heightBlock = new TextBlock
+                {
+                    Text = (MainWinsowDataContext.Scaller.GetValue(t.Y / dy)).ToString("F0"),
+                    Foreground = new SolidColorBrush(Colors.DarkGray)
+                };
+                Canvas.SetLeft(heightBlock, sWidth - 65);
+                Canvas.SetTop(heightBlock, t.Y);
+                gDigit.Children.Add(heightBlock);
+            }
         }
     }
 }

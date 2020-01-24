@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartWell.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,12 +35,15 @@ namespace SmartWell.ViewModels
         public int TubingLowerSuspensionIndex { get; set; }
         public KeyValuePair<int, string> TubingLowerSuspensionSelected { get; set; }
 
+
+        public SplineInterpolator Scaller;
+
         public MainWindowViewModel()
         {
             CasingShoeLenght = 350.0;
             CasingShoeHeight = 320.0;
             CasingShoeIndex = 17;
-            
+
             CasingPipeLenght = 1850.0;
             CasingPipeHeight = 1530.0;
             CasingPipeIndex = 10;
@@ -55,6 +59,15 @@ namespace SmartWell.ViewModels
             TubingLowerSuspensionLenght = 680.0;
             TubingLowerSuspensionHeight = 586.0;
             //TubingLowerSuspensionIndex = 0;
+
+            var known = new Dictionary<double, double> {
+                { 0.0, 0.0 },
+                { CasingPipeLenght,  CasingPipeHeight },
+                { CasingPipeLenght+CasingLinerLenght, CasingPipeHeight+CasingLinerHeight },
+                { TubingUpperSuspensionLenght, TubingUpperSuspensionHeight },
+                { TubingUpperSuspensionLenght+TubingLowerSuspensionLenght, TubingUpperSuspensionHeight+TubingLowerSuspensionHeight }
+            };
+            Scaller = new SplineInterpolator(known.OrderBy(x=>x.Key).ToDictionary(pair => pair.Key, pair => pair.Value));
         }
     }
 }

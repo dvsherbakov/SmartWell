@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\SplineInterpolator.cs" />
     <Compile Include="Models\VolumeGradient.cs" />
     <Compile Include="Models\VolumeItem.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
