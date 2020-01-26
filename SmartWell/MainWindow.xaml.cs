@@ -67,7 +67,9 @@ namespace SmartWell
             var sHeight = gPict.ActualHeight;
 
             gPict.Children.Clear();
-            gData.Children.Clear();
+            
+
+            MainWinsowDataContext.ShowLenghtMarker(gData);
 
             var pl = new Pipes();
 
@@ -83,11 +85,8 @@ namespace SmartWell
 
             var lenList = MainWinsowDataContext.GetLengthList();
 
-            var rectsB = new List<Rectangle>();
-            var rectsF = new List<Rectangle>();
             var clrs = VolumeGradients.Volumes();
-            // var top = 0;
-
+            
             var counter = 0;
             var prevMark = 0;
             foreach (var itm in lenList)
@@ -104,12 +103,10 @@ namespace SmartWell
                 Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
                 Canvas.SetTop(rectangle, prevMark * dy);
                 gPict.Children.Add(rectangle);
-                // top = (int)prevMark;
+              
                 counter++;
-
                 prevMark = (int)itm.MarkLabel;
             };
-
 
             prevMark = 0;
             foreach (var itm in lenList.Where(x => x.MarkLabel <= MainWinsowDataContext.TubingUpperSuspensionLenght + MainWinsowDataContext.TubingLowerSuspensionLenght))
@@ -126,9 +123,8 @@ namespace SmartWell
                 Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
                 Canvas.SetTop(rectangle, prevMark * dy);
                 gPict.Children.Add(rectangle);
-                // top = (int)prevMark;
+               
                 counter++;
-
                 prevMark = (int)itm.MarkLabel;
             };
 
@@ -138,7 +134,7 @@ namespace SmartWell
             SetCasingShema();
         }
 
-        private void gDigit_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void GDigit_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             UpdateLayout();
             

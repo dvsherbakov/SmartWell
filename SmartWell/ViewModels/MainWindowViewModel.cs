@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace SmartWell.ViewModels
 {
@@ -78,6 +79,16 @@ namespace SmartWell.ViewModels
                 new LengthItem { Layer = 2, MarkLabel = TubingUpperSuspensionLenght },
                 new LengthItem { Layer = 2, MarkLabel = TubingUpperSuspensionLenght+TubingLowerSuspensionLenght }
             }.OrderBy(x => x.MarkLabel).ToArray();
+        }
+
+        public void ShowLenghtMarker(Canvas canvas)
+        {
+            var sWidth = canvas.ActualWidth;
+            var sHeight = canvas.ActualHeight;
+
+            canvas.Children.Clear();
+
+
         }
 
     }
