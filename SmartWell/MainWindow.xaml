@@ -33,6 +33,12 @@
 
         <Canvas Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
                 Width="Auto" Height="Auto"
+                x:Name="gData"
+                MouseDown="gDigit_MouseMove"
+                Margin="3"/>
+
+        <Canvas Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" 
+                Width="Auto" Height="Auto"
                 x:Name="gDigit"
                 MouseDown="gDigit_MouseMove"
                 Margin="3"/>

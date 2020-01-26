@@ -56,13 +56,21 @@ namespace SmartWell
 
         private void SetCasingShema()
         {
-            var pl = new Pipes();
-            
             UpdateLayout();
-            gPict.Children.Clear();
+            UpdateShema();
+        }
 
+
+        private void UpdateShema()
+        {
             var sWidth = gPict.ActualWidth;
             var sHeight = gPict.ActualHeight;
+
+            gPict.Children.Clear();
+            gData.Children.Clear();
+
+            var pl = new Pipes();
+
             var w1 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingShoe.SelectedItem).Key).GetDOut();
             var w2 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingPipe.SelectedItem).Key).GetDOut();
             var w3 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingLiner.SelectedItem).Key).GetDOut();
@@ -79,13 +87,13 @@ namespace SmartWell
                 new LengthItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingPipeLenght+MainWinsowDataContext.CasingLinerLenght },
                 new LengthItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght },
                 new LengthItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght+MainWinsowDataContext.TubingLowerSuspensionLenght }
-            }.OrderBy(x=>x.MarkLabel).ToArray();
+            }.OrderBy(x => x.MarkLabel).ToArray();
 
             var rectsB = new List<Rectangle>();
             var rectsF = new List<Rectangle>();
             var clrs = VolumeGradients.Volumes();
             // var top = 0;
-            
+
             var counter = 0;
             var prevMark = 0;
             foreach (var itm in lenList)
@@ -97,20 +105,20 @@ namespace SmartWell
                     StrokeThickness = 2,
                     Fill = new VolumeGradient(clrs[counter]).GetValue(),
                     Width = dx * width,
-                    Height = itm.MarkLabel * dy - prevMark*dy
+                    Height = itm.MarkLabel * dy - prevMark * dy
                 };
                 Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
                 Canvas.SetTop(rectangle, prevMark * dy);
                 gPict.Children.Add(rectangle);
-               // top = (int)prevMark;
+                // top = (int)prevMark;
                 counter++;
-                
+
                 prevMark = (int)itm.MarkLabel;
             };
 
-            
+
             prevMark = 0;
-            foreach (var itm in lenList.Where(x=>x.MarkLabel<= MainWinsowDataContext.TubingUpperSuspensionLenght + MainWinsowDataContext.TubingLowerSuspensionLenght))
+            foreach (var itm in lenList.Where(x => x.MarkLabel <= MainWinsowDataContext.TubingUpperSuspensionLenght + MainWinsowDataContext.TubingLowerSuspensionLenght))
             {
                 var width = itm.MarkLabel > MainWinsowDataContext.TubingUpperSuspensionLenght ? n2 : n1;
                 var rectangle = new Rectangle
@@ -131,7 +139,6 @@ namespace SmartWell
             };
 
         }
-
         protected override void OnRender(DrawingContext dc)
         {
             SetCasingShema();

@@ -34,8 +34,7 @@ namespace SmartWell.ViewModels
         public double TubingLowerSuspensionHeight { get; set; }
         public int TubingLowerSuspensionIndex { get; set; }
         public KeyValuePair<int, string> TubingLowerSuspensionSelected { get; set; }
-
-
+        
         public SplineInterpolator Scaller;
 
         public MainWindowViewModel()
@@ -69,5 +68,6 @@ namespace SmartWell.ViewModels
             };
             Scaller = new SplineInterpolator(known.OrderBy(x=>x.Key).ToDictionary(pair => pair.Key, pair => pair.Value));
         }
+
     }
 }
