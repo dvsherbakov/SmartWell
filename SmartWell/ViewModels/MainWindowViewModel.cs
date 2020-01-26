@@ -69,5 +69,16 @@ namespace SmartWell.ViewModels
             Scaller = new SplineInterpolator(known.OrderBy(x=>x.Key).ToDictionary(pair => pair.Key, pair => pair.Value));
         }
 
+        public LengthItem[] GetLengthList()
+        {
+            return new List<LengthItem>
+            {
+                new LengthItem { Layer = 1, MarkLabel = CasingPipeLenght },
+                new LengthItem { Layer = 1, MarkLabel = CasingPipeLenght+CasingLinerLenght },
+                new LengthItem { Layer = 2, MarkLabel = TubingUpperSuspensionLenght },
+                new LengthItem { Layer = 2, MarkLabel = TubingUpperSuspensionLenght+TubingLowerSuspensionLenght }
+            }.OrderBy(x => x.MarkLabel).ToArray();
+        }
+
     }
 }

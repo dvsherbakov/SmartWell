@@ -81,13 +81,7 @@ namespace SmartWell
             var dx = sWidth / 3 / MaxDiam;
             var dy = sHeight / fHeight;
 
-            var lenList = new List<LengthItem>
-            {
-                new LengthItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingPipeLenght },
-                new LengthItem { Layer = 1, MarkLabel = MainWinsowDataContext.CasingPipeLenght+MainWinsowDataContext.CasingLinerLenght },
-                new LengthItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght },
-                new LengthItem { Layer = 2, MarkLabel = MainWinsowDataContext.TubingUpperSuspensionLenght+MainWinsowDataContext.TubingLowerSuspensionLenght }
-            }.OrderBy(x => x.MarkLabel).ToArray();
+            var lenList = MainWinsowDataContext.GetLengthList();
 
             var rectsB = new List<Rectangle>();
             var rectsF = new List<Rectangle>();
