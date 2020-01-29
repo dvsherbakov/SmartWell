@@ -48,7 +48,11 @@ namespace SmartWell.Models
                 new CGeomethry {Index = 29, Dout = 89, W = 7.34, Type = 3},
                 new CGeomethry {Index = 30, Dout = 89, W = 8, Type = 3},
                 new CGeomethry {Index = 31, Dout = 102, W = 6.5, Type = 3},
-                new CGeomethry {Index = 32, Dout = 114, W = 7, Type = 3}
+                new CGeomethry {Index = 32, Dout = 114, W = 7, Type = 3}, 
+
+                new CGeomethry {Index = 40, Dout=340, W= 9.65, Type = 4},
+                new CGeomethry {Index = 41, Dout=368, W= 11, Type = 4},
+
             };
         }
 

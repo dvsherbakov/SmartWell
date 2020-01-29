@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace SmartWell.ViewModels
 {
@@ -88,12 +90,66 @@ namespace SmartWell.ViewModels
 
         public static void ShowLengthMarker(Canvas canvas)
         {
-            var sWidth = canvas.ActualWidth;
-            var sHeight = canvas.ActualHeight;
+           
 
             canvas.Children.Clear();
 
+            addMarkLevel(canvas, CasingPipeLenght, CasingPipeHeight);
+            addMarkLevel(canvas, CasingPipeLenght+CasingLinerLenght, CasingPipeHeight+CasingLinerLenght);
+            addMarkLevel(canvas, TubingUpperSuspensionLenght, TubingUpperSuspensionHeight);
+            addMarkLevel(canvas, TubingUpperSuspensionLenght+TubingLowerSuspensionLenght, TubingUpperSuspensionHeight+TubingLowerSuspensionHeight);
+            
 
+        }
+
+        private void addMarkLevel(Canvas canvas, double lenght, double heigth)
+        {
+            var sWidth = canvas.ActualWidth;
+            var sHeight = canvas.ActualHeight;
+            var fHeight = CasingPipeLenght + CasingLinerLenght;
+            var dy = sHeight / fHeight;
+
+            var rLine = new Line
+            {
+                Stroke = Brushes.LightSteelBlue,
+                X1 = sWidth - 20,
+                X2 = sWidth - 75,
+                Y1 = lenght*dy, 
+                Y2 = lenght * dy,
+                StrokeThickness = 2
+            };
+            canvas.Children.Add(rLine);
+
+            var lLine = new Line
+            {
+                Stroke = Brushes.LightSteelBlue,
+                X1 = 20,
+                X2 = 75,
+                Y1 = lenght * dy,
+                Y2 = lenght * dy,
+                StrokeThickness = 2
+            };
+            canvas.Children.Add(lLine);
+
+            TextBlock textBlock = new TextBlock
+            {
+                Text = (lenght).ToString("F0"),
+                Foreground = new SolidColorBrush(Colors.Brown)
+            };
+            Canvas.SetLeft(textBlock, 30);
+            Canvas.SetTop(textBlock, lenght*dy);
+            canvas.Children.Add(textBlock);
+
+           
+                TextBlock heightBlock = new TextBlock
+                {
+                    Text = (heigth).ToString("F0"),
+                    Foreground = new SolidColorBrush(Colors.Brown)
+                };
+                Canvas.SetLeft(heightBlock, sWidth - 65);
+                Canvas.SetTop(heightBlock, lenght * dy);
+                canvas.Children.Add(heightBlock);
+            
         }
 
     }
