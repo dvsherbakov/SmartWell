@@ -69,7 +69,7 @@ namespace SmartWell
             gPict.Children.Clear();
             
 
-            MainWinsowDataContext.ShowLenghtMarker(gData);
+            MainWindowViewModel.ShowLengthMarker(gData);
 
             var pl = new Pipes();
 
@@ -79,24 +79,24 @@ namespace SmartWell
             var n1 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut();
             var n2 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut();
             var MaxDiam = (new double[] { w1, w2, w3 }).Max();
-            var fHeight = MainWinsowDataContext.CasingPipeLenght + MainWinsowDataContext.CasingLinerLenght;
+            var fHeight = MainWinsowDataContext.CasingPipeLength + MainWinsowDataContext.CasingLinerLength;
             var dx = sWidth / 3 / MaxDiam;
             var dy = sHeight / fHeight;
 
             var lenList = MainWinsowDataContext.GetLengthList();
 
-            var clrs = VolumeGradients.Volumes();
+            var colors = VolumeGradients.Volumes();
             
             var counter = 0;
             var prevMark = 0;
             foreach (var itm in lenList)
             {
-                var width = itm.MarkLabel > MainWinsowDataContext.CasingPipeLenght ? w2 : w1;
+                var width = itm.MarkLabel > MainWinsowDataContext.CasingPipeLength ? w2 : w1;
                 var rectangle = new Rectangle
                 {
                     Stroke = new SolidColorBrush(Colors.Gray),//clrs[counter]),
                     StrokeThickness = 2,
-                    Fill = new VolumeGradient(clrs[counter]).GetValue(),
+                    Fill = new VolumeGradient(colors[counter]).GetValue(),
                     Width = dx * width,
                     Height = itm.MarkLabel * dy - prevMark * dy
                 };
@@ -109,14 +109,14 @@ namespace SmartWell
             };
 
             prevMark = 0;
-            foreach (var itm in lenList.Where(x => x.MarkLabel <= MainWinsowDataContext.TubingUpperSuspensionLenght + MainWinsowDataContext.TubingLowerSuspensionLenght))
+            foreach (var itm in lenList.Where(x => x.MarkLabel <= MainWinsowDataContext.TubingUpperSuspensionLength + MainWinsowDataContext.TubingLowerSuspensionLength))
             {
-                var width = itm.MarkLabel > MainWinsowDataContext.TubingUpperSuspensionLenght ? n2 : n1;
+                var width = itm.MarkLabel > MainWinsowDataContext.TubingUpperSuspensionLength ? n2 : n1;
                 var rectangle = new Rectangle
                 {
-                    Stroke = new SolidColorBrush(clrs[counter]),
+                    Stroke = new SolidColorBrush(colors[counter]),
                     StrokeThickness = 2,
-                    Fill = new VolumeGradient(clrs[counter]).GetValue(),
+                    Fill = new VolumeGradient(colors[counter]).GetValue(),
                     Width = dx * width,
                     Height = itm.MarkLabel * dy - prevMark * dy
                 };
@@ -141,7 +141,7 @@ namespace SmartWell
             var sWidth = gPict.ActualWidth;
             var sHeight = gPict.ActualHeight;
             
-            var fHeight = MainWinsowDataContext.CasingPipeLenght + MainWinsowDataContext.CasingLinerLenght;
+            var fHeight = MainWinsowDataContext.CasingPipeLength + MainWinsowDataContext.CasingLinerLength;
             
             var dy = sHeight / fHeight;
             var t = e.GetPosition(gPict);
