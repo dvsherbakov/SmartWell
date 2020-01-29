@@ -51,6 +51,11 @@ namespace SmartWell
             CbTubingLowerSuspension.SelectedValuePath = "Key";
             CbTubingLowerSuspension.DisplayMemberPath = "Value";
 
+            CbConductor.Items.Clear();
+            CbConductor.ItemsSource = pl.GetList(4);
+            CbConductor.SelectedValuePath = "Key";
+            CbConductor.DisplayMemberPath = "Value";
+
             DataContext = MainWinsowDataContext;
         }
 
