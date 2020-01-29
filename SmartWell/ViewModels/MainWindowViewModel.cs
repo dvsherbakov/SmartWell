@@ -43,10 +43,13 @@ namespace SmartWell.ViewModels
         public int TubingLowerSuspensionIndex { get; set; }
         public KeyValuePair<int, string> TubingLowerSuspensionSelected { get; set; }
         
-        public SplineInterpolator Scaller;
+        public readonly SplineInterpolator Scaller;
 
         public MainWindowViewModel()
         {
+            ConductorLength = 200;
+            CasingShoeIndex = 0;
+
             CasingShoeLength = 350.0;
             CasingShoeHeight = 320.0;
             CasingShoeIndex = 17;
@@ -88,25 +91,25 @@ namespace SmartWell.ViewModels
             }.OrderBy(x => x.MarkLabel).ToArray();
         }
 
-        public static void ShowLengthMarker(Canvas canvas)
+        public void ShowLengthMarker(Canvas canvas)
         {
            
 
             canvas.Children.Clear();
 
-            addMarkLevel(canvas, CasingPipeLenght, CasingPipeHeight);
-            addMarkLevel(canvas, CasingPipeLenght+CasingLinerLenght, CasingPipeHeight+CasingLinerLenght);
-            addMarkLevel(canvas, TubingUpperSuspensionLenght, TubingUpperSuspensionHeight);
-            addMarkLevel(canvas, TubingUpperSuspensionLenght+TubingLowerSuspensionLenght, TubingUpperSuspensionHeight+TubingLowerSuspensionHeight);
+            AddMarkLevel(canvas, CasingPipeLength, CasingPipeHeight);
+            AddMarkLevel(canvas, CasingPipeLength+CasingLinerLength, CasingPipeHeight+CasingLinerLength);
+            AddMarkLevel(canvas, TubingUpperSuspensionLength, TubingUpperSuspensionHeight);
+            AddMarkLevel(canvas, TubingUpperSuspensionLength+TubingLowerSuspensionLength, TubingUpperSuspensionHeight+TubingLowerSuspensionHeight);
             
 
         }
 
-        private void addMarkLevel(Canvas canvas, double lenght, double heigth)
+        private void AddMarkLevel(Panel canvas, double length, double height)
         {
             var sWidth = canvas.ActualWidth;
             var sHeight = canvas.ActualHeight;
-            var fHeight = CasingPipeLenght + CasingLinerLenght;
+            var fHeight = CasingPipeLength + CasingLinerLength;
             var dy = sHeight / fHeight;
 
             var rLine = new Line
@@ -114,8 +117,8 @@ namespace SmartWell.ViewModels
                 Stroke = Brushes.LightSteelBlue,
                 X1 = sWidth - 20,
                 X2 = sWidth - 75,
-                Y1 = lenght*dy, 
-                Y2 = lenght * dy,
+                Y1 = length * dy,
+                Y2 = length * dy,
                 StrokeThickness = 2
             };
             canvas.Children.Add(rLine);
@@ -125,31 +128,29 @@ namespace SmartWell.ViewModels
                 Stroke = Brushes.LightSteelBlue,
                 X1 = 20,
                 X2 = 75,
-                Y1 = lenght * dy,
-                Y2 = lenght * dy,
+                Y1 = length * dy,
+                Y2 = length * dy,
                 StrokeThickness = 2
             };
             canvas.Children.Add(lLine);
 
-            TextBlock textBlock = new TextBlock
+            var textBlock = new TextBlock
             {
-                Text = (lenght).ToString("F0"),
+                Text = (length).ToString("F0"),
                 Foreground = new SolidColorBrush(Colors.Brown)
             };
             Canvas.SetLeft(textBlock, 30);
-            Canvas.SetTop(textBlock, lenght*dy);
+            Canvas.SetTop(textBlock, length * dy);
             canvas.Children.Add(textBlock);
 
-           
-                TextBlock heightBlock = new TextBlock
-                {
-                    Text = (heigth).ToString("F0"),
-                    Foreground = new SolidColorBrush(Colors.Brown)
-                };
-                Canvas.SetLeft(heightBlock, sWidth - 65);
-                Canvas.SetTop(heightBlock, lenght * dy);
-                canvas.Children.Add(heightBlock);
-            
+            var heightBlock = new TextBlock
+            {
+                Text = (height).ToString("F0"),
+                Foreground = new SolidColorBrush(Colors.Brown)
+            };
+            Canvas.SetLeft(heightBlock, sWidth - 65);
+            Canvas.SetTop(heightBlock, length * dy);
+            canvas.Children.Add(heightBlock);
         }
 
     }
