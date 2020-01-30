@@ -36,8 +36,10 @@ namespace SmartWell.ViewModels
         public int CasingPipeIndex { get; set; }
         public KeyValuePair<int, string> CasingPipeSelected { get; set; }
         //Хвостовик колонны
-        public double CasingLinerLength { get; set; }
-        public double CasingLinerHeight { get; set; }
+        public double CasingLinerLengthStart { get; set; }
+        public double CasingLinerLengthEnd { get; set; }
+        public double CasingLinerHeightStart { get; set; }
+        public double CasingLinerHeightEnd { get; set; }
         public int CasingLinerIndex { get; set; }
         public KeyValuePair<int, string> CasingLinerSelected { get; set; }
         //НКТ вехняя подвеска
@@ -78,8 +80,10 @@ namespace SmartWell.ViewModels
             CasingPipeHeightEnd = 3646;
             CasingPipeIndex = 10;
 
-            CasingLinerLength = 1150.0;
-            CasingLinerHeight = 880.0;
+            CasingLinerLengthStart = 0;
+            CasingLinerLengthEnd = 1150.0;
+            CasingLinerHeightStart = 0;
+            CasingLinerHeightEnd = 880.0;
             CasingLinerIndex = 3;
 
             TubingUpperSuspensionLength = 1280.0;
@@ -93,7 +97,7 @@ namespace SmartWell.ViewModels
             var known = new Dictionary<double, double> {
                 { 0.0, 0.0 },
                 { CasingPipeLengthEnd,  CasingPipeHeightEnd },
-                { CasingPipeLengthEnd+CasingLinerLength, CasingPipeHeightEnd+CasingLinerHeight },
+                { CasingPipeLengthEnd+CasingLinerLengthEnd, CasingPipeHeightEnd+CasingLinerHeightEnd },
                 { TubingUpperSuspensionLength, TubingUpperSuspensionHeight },
                 { TubingUpperSuspensionLength+TubingLowerSuspensionLength, TubingUpperSuspensionHeight+TubingLowerSuspensionHeight }
             };
@@ -118,7 +122,7 @@ namespace SmartWell.ViewModels
             canvas.Children.Clear();
 
             AddMarkLevel(canvas, CasingPipeLengthEnd, CasingPipeHeightEnd);
-            AddMarkLevel(canvas, CasingPipeLengthEnd+CasingLinerLength, CasingPipeHeightEnd+CasingLinerLength);
+            AddMarkLevel(canvas, CasingPipeLengthEnd+CasingLinerLengthEnd, CasingPipeHeightEnd+CasingLinerLengthEnd);
             AddMarkLevel(canvas, TubingUpperSuspensionLength, TubingUpperSuspensionHeight);
             AddMarkLevel(canvas, TubingUpperSuspensionLength+TubingLowerSuspensionLength, TubingUpperSuspensionHeight+TubingLowerSuspensionHeight);
             
@@ -129,7 +133,7 @@ namespace SmartWell.ViewModels
         {
             var sWidth = canvas.ActualWidth;
             var sHeight = canvas.ActualHeight;
-            var fHeight = CasingPipeLengthEnd + CasingLinerLength;
+            var fHeight = CasingPipeLengthEnd + CasingLinerLengthEnd;
             var dy = sHeight / fHeight;
 
             var rLine = new Line
