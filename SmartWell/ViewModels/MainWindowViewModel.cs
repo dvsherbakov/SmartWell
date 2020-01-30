@@ -13,18 +13,26 @@ namespace SmartWell.ViewModels
     public class MainWindowViewModel
     {
         // Кондуктор
-        public double ConductorLength { get; set; }
+        public double ConductorLengthStart { get; set; }
+        public double ConductorLengthEnd { get; set; }
         public double ConductorIndex { get; set; }
+        public bool ConductorIsCement { get; set; }
+
         public KeyValuePair<int, string> ConductorSelected { get; set; }
 
-        // Башкмак колонны
-        public double CasingShoeLength { get; set; }
-        public double CasingShoeHeight { get; set; }
+        // ТехКолонна
+        public double CasingShoeLengthStart { get; set; }
+        public double CasingShoeLengthEnd { get; set; }
+        public double CasingShoeHeightStart { get; set; }
+        public double CasingShoeHeightEnd { get; set; }
+        public bool CasingShoeIsCement { get; set; }
         public int CasingShoeIndex { get; set; }
         public KeyValuePair<int, string> CasingShoeSelected { get; set; }
         // Колонна
-        public double CasingPipeLength { get; set; }
-        public double CasingPipeHeight { get; set; }
+        public double CasingPipeLengthStart { get; set; }
+        public double CasingPipeLengthEnd { get; set; }
+        public double CasingPipeHeightStart { get; set; }
+        public double CasingPipeHeightEnd { get; set; }
         public int CasingPipeIndex { get; set; }
         public KeyValuePair<int, string> CasingPipeSelected { get; set; }
         //Хвостовик колонны
@@ -45,17 +53,29 @@ namespace SmartWell.ViewModels
         
         public readonly SplineInterpolator Scaller;
 
+        public CanvasProps props { get; set; }
+
         public MainWindowViewModel()
         {
-            ConductorLength = 200;
+
+            props = new CanvasProps();
+
+            ConductorLengthStart = 0;
+            ConductorLengthEnd = 452;
+            ConductorIsCement = true;
             CasingShoeIndex = 0;
 
-            CasingShoeLength = 350.0;
-            CasingShoeHeight = 320.0;
+            CasingShoeLengthStart = 0;
+            CasingShoeLengthEnd = 1672;
+            CasingShoeHeightStart = 0;
+            CasingShoeHeightEnd = 1649;
+            CasingShoeIsCement = true;
             CasingShoeIndex = 17;
 
-            CasingPipeLength = 1850.0;
-            CasingPipeHeight = 1530.0;
+            CasingPipeLengthStart = 0;
+            CasingPipeLengthEnd = 3845;
+            CasingPipeHeightStart = 0;
+            CasingPipeHeightEnd = 3646;
             CasingPipeIndex = 10;
 
             CasingLinerLength = 1150.0;
@@ -72,8 +92,8 @@ namespace SmartWell.ViewModels
 
             var known = new Dictionary<double, double> {
                 { 0.0, 0.0 },
-                { CasingPipeLength,  CasingPipeHeight },
-                { CasingPipeLength+CasingLinerLength, CasingPipeHeight+CasingLinerHeight },
+                { CasingPipeLengthEnd,  CasingPipeHeightEnd },
+                { CasingPipeLengthEnd+CasingLinerLength, CasingPipeHeightEnd+CasingLinerHeight },
                 { TubingUpperSuspensionLength, TubingUpperSuspensionHeight },
                 { TubingUpperSuspensionLength+TubingLowerSuspensionLength, TubingUpperSuspensionHeight+TubingLowerSuspensionHeight }
             };
@@ -84,8 +104,8 @@ namespace SmartWell.ViewModels
         {
             return new List<LengthItem>
             {
-                new LengthItem { Layer = 1, MarkLabel = CasingPipeLength },
-                new LengthItem { Layer = 1, MarkLabel = CasingPipeLength+CasingLinerLength },
+                new LengthItem { Layer = 1, MarkLabel = CasingPipeLengthEnd },
+                new LengthItem { Layer = 1, MarkLabel = CasingPipeLengthEnd },
                 new LengthItem { Layer = 2, MarkLabel = TubingUpperSuspensionLength },
                 new LengthItem { Layer = 2, MarkLabel = TubingUpperSuspensionLength+TubingLowerSuspensionLength }
             }.OrderBy(x => x.MarkLabel).ToArray();
@@ -97,8 +117,8 @@ namespace SmartWell.ViewModels
 
             canvas.Children.Clear();
 
-            AddMarkLevel(canvas, CasingPipeLength, CasingPipeHeight);
-            AddMarkLevel(canvas, CasingPipeLength+CasingLinerLength, CasingPipeHeight+CasingLinerLength);
+            AddMarkLevel(canvas, CasingPipeLengthEnd, CasingPipeHeightEnd);
+            AddMarkLevel(canvas, CasingPipeLengthEnd+CasingLinerLength, CasingPipeHeightEnd+CasingLinerLength);
             AddMarkLevel(canvas, TubingUpperSuspensionLength, TubingUpperSuspensionHeight);
             AddMarkLevel(canvas, TubingUpperSuspensionLength+TubingLowerSuspensionLength, TubingUpperSuspensionHeight+TubingLowerSuspensionHeight);
             
@@ -109,7 +129,7 @@ namespace SmartWell.ViewModels
         {
             var sWidth = canvas.ActualWidth;
             var sHeight = canvas.ActualHeight;
-            var fHeight = CasingPipeLength + CasingLinerLength;
+            var fHeight = CasingPipeLengthEnd + CasingLinerLength;
             var dy = sHeight / fHeight;
 
             var rLine = new Line
