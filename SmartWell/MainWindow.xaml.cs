@@ -88,7 +88,7 @@ namespace SmartWell
             var n1 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut();
             var n2 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut();
             var maxDiam = (new[] { w1, w2, w3, w4 }).Max();
-            var fHeight = MainWindowDataContext.CasingPipeLengthEnd + MainWindowDataContext.CasingLinerLengthEnd;
+            var fHeight = (new[] { MainWindowDataContext.CasingShoeLengthEnd,  MainWindowDataContext.CasingPipeLengthEnd, MainWindowDataContext.CasingLinerLengthEnd }).Max();
 
             var dx = sWidth / 3 / maxDiam;
             var dy = sHeight / fHeight;
@@ -121,9 +121,9 @@ namespace SmartWell
             }
 
             prevMark = 0;
-            foreach (var itm in lenList.Where(x => x.MarkLabel <= MainWindowDataContext.TubingUpperSuspensionLength + MainWindowDataContext.TubingLowerSuspensionLength))
+            foreach (var itm in lenList.Where(x => x.MarkLabel <=  MainWindowDataContext.TubingLowerSuspensionLengthEnd))
             {
-                var width = itm.MarkLabel > MainWindowDataContext.TubingUpperSuspensionLength ? n2 : n1;
+                var width = itm.MarkLabel > MainWindowDataContext.TubingUpperSuspensionLengthEnd ? n2 : n1;
                 var rectangle = new Rectangle
                 {
                     Stroke = new SolidColorBrush(colors[counter]),

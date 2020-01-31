@@ -86,6 +86,7 @@ namespace SmartWell.Models
                 }
             }
 
+            if (gap + 1 > _h.Length) gap = _h.Length - 1;
             var x1 = key - previous;
             var x2 = _h[gap] - x1;
 
