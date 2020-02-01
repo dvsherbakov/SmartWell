@@ -98,9 +98,9 @@ namespace SmartWell.ViewModels
             var known = new Dictionary<double, double> {
                 { 0.0, 0.0 },
                 { CasingPipeLengthEnd,  CasingPipeHeightEnd },
-                { CasingPipeLengthEnd+CasingLinerLengthEnd, CasingPipeHeightEnd+CasingLinerHeightEnd },
+                { CasingLinerLengthEnd, CasingLinerHeightEnd },
                 { TubingUpperSuspensionLengthEnd, TubingUpperSuspensionHeightEnd },
-                { TubingUpperSuspensionLengthEnd+TubingLowerSuspensionLengthEnd, TubingUpperSuspensionHeightEnd+TubingLowerSuspensionHeightEnd }
+                { TubingLowerSuspensionLengthEnd, TubingLowerSuspensionHeightEnd }
             };
             Scaller = new SplineInterpolator(known.OrderBy(x=>x.Key).ToDictionary(pair => pair.Key, pair => pair.Value));
         }
@@ -109,8 +109,8 @@ namespace SmartWell.ViewModels
         {
             return new List<LengthItem>
             {
-                new LengthItem { Layer = 1, MarkLabel = CasingPipeLengthEnd },
-                new LengthItem { Layer = 1, MarkLabel = CasingPipeLengthEnd },
+                new LengthItem { Layer = 1, MarkLabel = CasingPipeLengthEnd  },
+                new LengthItem { Layer = 1, MarkLabel = CasingLinerLengthEnd },
                 new LengthItem { Layer = 2, MarkLabel = TubingUpperSuspensionLengthEnd },
                 new LengthItem { Layer = 2, MarkLabel = TubingLowerSuspensionLengthEnd }
             }.OrderBy(x => x.MarkLabel).ToArray();
@@ -118,10 +118,8 @@ namespace SmartWell.ViewModels
 
         public void ShowLengthMarker(Canvas canvas)
         {
-           
 
             canvas.Children.Clear();
-
             AddMarkLevel(canvas, CasingPipeLengthEnd, CasingPipeHeightEnd);
             AddMarkLevel(canvas, CasingLinerLengthEnd, CasingLinerLengthEnd);
             AddMarkLevel(canvas, TubingUpperSuspensionLengthEnd, TubingUpperSuspensionHeightEnd);
@@ -132,18 +130,14 @@ namespace SmartWell.ViewModels
 
         private void AddMarkLevel(Panel canvas, double length, double height)
         {
-            var sWidth = canvas.ActualWidth;
-            var sHeight = canvas.ActualHeight;
-            var fHeight = CasingPipeLengthEnd + CasingLinerLengthEnd;
-            var dy = sHeight / fHeight;
-
+           
             var rLine = new Line
             {
                 Stroke = Brushes.LightSteelBlue,
-                X1 = sWidth - 20,
-                X2 = sWidth - 75,
-                Y1 = length * dy,
-                Y2 = length * dy,
+                X1 = props.width - 20,
+                X2 = props.width - 75,
+                Y1 = length * props.dy,
+                Y2 = length * props.dy,
                 StrokeThickness = 2
             };
             canvas.Children.Add(rLine);
@@ -153,8 +147,8 @@ namespace SmartWell.ViewModels
                 Stroke = Brushes.LightSteelBlue,
                 X1 = 20,
                 X2 = 75,
-                Y1 = length * dy,
-                Y2 = length * dy,
+                Y1 = length * props.dy,
+                Y2 = length * props.dy,
                 StrokeThickness = 2
             };
             canvas.Children.Add(lLine);
@@ -165,7 +159,7 @@ namespace SmartWell.ViewModels
                 Foreground = new SolidColorBrush(Colors.Brown)
             };
             Canvas.SetLeft(textBlock, 30);
-            Canvas.SetTop(textBlock, length * dy);
+            Canvas.SetTop(textBlock, length * props.dy);
             canvas.Children.Add(textBlock);
 
             var heightBlock = new TextBlock
@@ -173,8 +167,8 @@ namespace SmartWell.ViewModels
                 Text = (height).ToString("F0"),
                 Foreground = new SolidColorBrush(Colors.Brown)
             };
-            Canvas.SetLeft(heightBlock, sWidth - 65);
-            Canvas.SetTop(heightBlock, length * dy);
+            Canvas.SetLeft(heightBlock, props.width- 65);
+            Canvas.SetTop(heightBlock, length * props.dy);
             canvas.Children.Add(heightBlock);
         }
 

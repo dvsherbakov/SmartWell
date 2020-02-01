@@ -77,7 +77,7 @@ namespace SmartWell
             gPict.Children.Clear();
 
 
-            MainWindowDataContext.ShowLengthMarker(gData);
+           
 
             var pl = new Pipes();
 
@@ -94,6 +94,8 @@ namespace SmartWell
             var dy = sHeight / fHeight;
             MainWindowDataContext.props.dx = dx;
             MainWindowDataContext.props.dy = dy;
+
+            MainWindowDataContext.ShowLengthMarker(gData);
 
             var lenList = MainWindowDataContext.GetLengthList();
 
