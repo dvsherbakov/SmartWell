@@ -66,7 +66,6 @@ namespace SmartWell
             UpdateScheme();
         }
 
-
         private void UpdateScheme()
         {
             var sWidth = gPict.ActualWidth;
@@ -94,51 +93,45 @@ namespace SmartWell
 
             MainWindowDataContext.ShowLengthMarker(gData);
 
-            var lenList = MainWindowDataContext.GetLengthList();
+            MainWindowDataContext.GenerateCasing(gPict);
+            //foreach (var itm in lenList)
+            //{
+            //    var width = itm.MarkLabel > MainWindowDataContext.CasingPipeLengthEnd ? w2 : w1;
+            //    var rectangle = new Rectangle
+            //    {
+            //        Stroke = new SolidColorBrush(Colors.Gray),
+            //        StrokeThickness = 2,
+            //        Fill = new VolumeGradient(colors[counter]).GetValue(),
+            //        Width = dx * width,
+            //        Height = itm.MarkLabel * dy - prevMark * dy
+            //    };
+            //    Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
+            //    Canvas.SetTop(rectangle, prevMark * dy);
+            //    gPict.Children.Add(rectangle);
 
-            var colors = VolumeGradients.Volumes();
+            //    counter++;
+            //    prevMark = (int)itm.MarkLabel;
+            //}
 
-            var counter = 0;
-            var prevMark = 0;
-            foreach (var itm in lenList)
-            {
-                var width = itm.MarkLabel > MainWindowDataContext.CasingPipeLengthEnd ? w2 : w1;
-                var rectangle = new Rectangle
-                {
-                    Stroke = new SolidColorBrush(Colors.Gray),
-                    StrokeThickness = 2,
-                    Fill = new VolumeGradient(colors[counter]).GetValue(),
-                    Width = dx * width,
-                    Height = itm.MarkLabel * dy - prevMark * dy
-                };
-                Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
-                Canvas.SetTop(rectangle, prevMark * dy);
-                gPict.Children.Add(rectangle);
+            //foreach (var itm in lenList.Where(x => x.MarkLabel <=  MainWindowDataContext.TubingLowerSuspensionLengthEnd))
+            //{
+            //    var width = itm.MarkLabel > MainWindowDataContext.TubingUpperSuspensionLengthEnd ? n2 : n1;
+            //    var rectangle = new Rectangle
+            //    {
+            //        Stroke = new SolidColorBrush(colors[counter]),
+            //        StrokeThickness = 2,
+            //        Fill = new VolumeGradient(colors[counter]).GetValue(),
+            //        Width = dx * width,
+            //        Height = itm.MarkLabel * dy - prevMark * dy
+            //    };
+            //    Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
+            //    Canvas.SetTop(rectangle, prevMark * dy);
+            //    gPict.Children.Add(rectangle);
 
-                counter++;
-                prevMark = (int)itm.MarkLabel;
-            }
-
-            prevMark = 0;
-            foreach (var itm in lenList.Where(x => x.MarkLabel <=  MainWindowDataContext.TubingLowerSuspensionLengthEnd))
-            {
-                var width = itm.MarkLabel > MainWindowDataContext.TubingUpperSuspensionLengthEnd ? n2 : n1;
-                var rectangle = new Rectangle
-                {
-                    Stroke = new SolidColorBrush(colors[counter]),
-                    StrokeThickness = 2,
-                    Fill = new VolumeGradient(colors[counter]).GetValue(),
-                    Width = dx * width,
-                    Height = itm.MarkLabel * dy - prevMark * dy
-                };
-                Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
-                Canvas.SetTop(rectangle, prevMark * dy);
-                gPict.Children.Add(rectangle);
-
-                counter++;
-                prevMark = (int)itm.MarkLabel;
-            }
-            MainWindowDataContext.FreeRect(gPict, 0, 380, 2550);
+            //    counter++;
+            //    prevMark = (int)itm.MarkLabel;
+            //}
+            // MainWindowDataContext.FreeRect(gPict, 0, 380, 2550);
         }
 
         protected override void OnRender(DrawingContext dc)

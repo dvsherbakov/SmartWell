@@ -171,19 +171,31 @@ namespace SmartWell.ViewModels
             canvas.Children.Add(heightBlock);
         }
 
-        public void FreeRect(Panel canvas, double top, double width, double height)
+        private void FreeRect(Panel canvas, double top, double width, double height, int colorNum)
         {
+            var color = VolumeGradients.Volumes()[colorNum];
             var rectangle = new Rectangle
             {
-                Stroke = new SolidColorBrush(Colors.Black),
+                Stroke = new SolidColorBrush(color),
                 StrokeThickness = 2,
-                Fill =HatchingGradient.Volumes()[1],
+                Fill = new VolumeGradient(color).GetValue(),
                 Width =  props.dx * width,
                 Height = height* props.dy
             };
             Canvas.SetLeft(rectangle, props.width/ 2 - props.dx * width / 2);
             Canvas.SetTop(rectangle, top* props.dy);
             canvas.Children.Add(rectangle);
+        }
+
+        public void GenerateCasing(Panel canvas)
+        {
+            var heights = GetLengthList();
+            
+            for (var i = 0; i < heights.Length; i++)
+            {
+                var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
+                FreeRect(canvas, top, 180, heights[i].MarkLabel-top, i);
+            }
         }
 
     }
