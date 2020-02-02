@@ -76,9 +76,6 @@ namespace SmartWell
 
             gPict.Children.Clear();
 
-
-           
-
             var pl = new Pipes();
 
             var w1 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingShoe.SelectedItem).Key).GetDOut();
