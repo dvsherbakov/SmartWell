@@ -138,6 +138,7 @@ namespace SmartWell
                 counter++;
                 prevMark = (int)itm.MarkLabel;
             }
+            MainWindowDataContext.FreeRect(gPict, 0, 380, 2550);
         }
 
         protected override void OnRender(DrawingContext dc)

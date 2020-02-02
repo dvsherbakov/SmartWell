@@ -59,26 +59,35 @@ namespace SmartWell.Models
 
     internal static class HatchingGradient
     {
-        public static LinearGradientBrush LinesBrush()
+        private static LinearGradientBrush GenerateGradient(Point start, Point end)
         {
             var stops = new GradientStopCollection
             {
                 new GradientStop(Colors.Black, 0),
-                new GradientStop(Colors.Black, 0.1),
-                new GradientStop(Colors.White, 0.1),
+                new GradientStop(Colors.Black, 0.2),
+                new GradientStop(Colors.White, 0.2),
                 new GradientStop(Colors.White, 1)
             };
 
-            var res = new LinearGradientBrush
+            return new LinearGradientBrush
             {
-                EndPoint = new Point(0, 0),
-                StartPoint = new Point(8,8),
+                EndPoint = end,
+                StartPoint = start,
                 MappingMode = BrushMappingMode.Absolute,
                 SpreadMethod = GradientSpreadMethod.Repeat,
                 GradientStops = stops
             };
+        }
 
-            return res;
+        public static LinearGradientBrush[] Volumes()
+        {
+            return new List<LinearGradientBrush>()
+            {
+                GenerateGradient(new Point(0,0), new Point(4,4)),
+                GenerateGradient(new Point(4,0), new Point(0,4)),
+                GenerateGradient(new Point(0,4), new Point(4,4)),
+                GenerateGradient(new Point(4,0), new Point(4,4)),
+            }.ToArray();
         }
     }
 }

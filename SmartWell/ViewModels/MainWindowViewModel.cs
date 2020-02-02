@@ -130,7 +130,6 @@ namespace SmartWell.ViewModels
 
         private void AddMarkLevel(Panel canvas, double length, double height)
         {
-           
             var rLine = new Line
             {
                 Stroke = Brushes.LightSteelBlue,
@@ -170,6 +169,21 @@ namespace SmartWell.ViewModels
             Canvas.SetLeft(heightBlock, props.width- 65);
             Canvas.SetTop(heightBlock, length * props.dy);
             canvas.Children.Add(heightBlock);
+        }
+
+        public void FreeRect(Panel canvas, double top, double width, double height)
+        {
+            var rectangle = new Rectangle
+            {
+                Stroke = new SolidColorBrush(Colors.Black),
+                StrokeThickness = 2,
+                Fill =HatchingGradient.Volumes()[1],
+                Width =  props.dx * width,
+                Height = height* props.dy
+            };
+            Canvas.SetLeft(rectangle, props.width/ 2 - props.dx * width / 2);
+            Canvas.SetTop(rectangle, top* props.dy);
+            canvas.Children.Add(rectangle);
         }
 
     }
