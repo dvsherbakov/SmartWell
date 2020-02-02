@@ -34,6 +34,7 @@ namespace SmartWell.ViewModels
         public double CasingPipeHeightStart { get; set; }
         public double CasingPipeHeightEnd { get; set; }
         public int CasingPipeIndex { get; set; }
+        public double CasingPipeWidth { get; set; }
         public KeyValuePair<int, string> CasingPipeSelected { get; set; }
         //Хвостовик колонны
         public double CasingLinerLengthStart { get; set; }
@@ -41,6 +42,7 @@ namespace SmartWell.ViewModels
         public double CasingLinerHeightStart { get; set; }
         public double CasingLinerHeightEnd { get; set; }
         public int CasingLinerIndex { get; set; }
+        public double CasingLinerWidth { get; set; }
         public KeyValuePair<int, string> CasingLinerSelected { get; set; }
         //НКТ вехняя подвеска
         public double TubingUpperSuspensionLengthStart { get; set; }
@@ -194,7 +196,8 @@ namespace SmartWell.ViewModels
             for (var i = 0; i < heights.Length; i++)
             {
                 var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
-                FreeRect(canvas, top, 180, heights[i].MarkLabel-top, i);
+                var width = top < CasingPipeLengthEnd ? CasingPipeWidth : CasingLinerWidth;
+                FreeRect(canvas, top, width, heights[i].MarkLabel-top, i);
             }
         }
 

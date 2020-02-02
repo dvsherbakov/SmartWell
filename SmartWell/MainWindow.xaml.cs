@@ -79,7 +79,9 @@ namespace SmartWell
 
             var w1 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingShoe.SelectedItem).Key).GetDOut();
             var w2 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingPipe.SelectedItem).Key).GetDOut();
+            MainWindowDataContext.CasingPipeWidth = w2;
             var w3 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingLiner.SelectedItem).Key).GetDOut();
+            MainWindowDataContext.CasingLinerWidth = w3;
             var w4 = pl.GetByIndex(((KeyValuePair<int, string>)CbConductor.SelectedItem).Key).GetDOut();
             var n1 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut();
             var n2 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut();
