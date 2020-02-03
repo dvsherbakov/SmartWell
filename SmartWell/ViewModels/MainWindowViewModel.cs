@@ -17,7 +17,6 @@ namespace SmartWell.ViewModels
         public double ConductorLengthEnd { get; set; }
         public double ConductorIndex { get; set; }
         public bool ConductorIsCement { get; set; }
-
         public KeyValuePair<int, string> ConductorSelected { get; set; }
 
         // ТехКолонна
@@ -27,7 +26,7 @@ namespace SmartWell.ViewModels
         public double CasingShoeHeightEnd { get; set; }
         public bool CasingShoeIsCement { get; set; }
         public int CasingShoeIndex { get; set; }
-        public KeyValuePair<int, string> CasingShoeSelected { get; set; }
+        
         // Колонна
         public double CasingPipeLengthStart { get; set; }
         public double CasingPipeLengthEnd { get; set; }
@@ -35,7 +34,7 @@ namespace SmartWell.ViewModels
         public double CasingPipeHeightEnd { get; set; }
         public int CasingPipeIndex { get; set; }
         public double CasingPipeWidth { get; set; }
-        public KeyValuePair<int, string> CasingPipeSelected { get; set; }
+       
         //Хвостовик колонны
         public double CasingLinerLengthStart { get; set; }
         public double CasingLinerLengthEnd { get; set; }
@@ -43,34 +42,39 @@ namespace SmartWell.ViewModels
         public double CasingLinerHeightEnd { get; set; }
         public int CasingLinerIndex { get; set; }
         public double CasingLinerWidth { get; set; }
-        public KeyValuePair<int, string> CasingLinerSelected { get; set; }
+        
         //НКТ вехняя подвеска
         public double TubingUpperSuspensionLengthStart { get; set; }
         public double TubingUpperSuspensionLengthEnd { get; set; }
         public double TubingUpperSuspensionHeightStart { get; set; }
         public double TubingUpperSuspensionHeightEnd { get; set; }
         public int TubingUpperSuspensionIndex { get; set; }
-        public KeyValuePair<int, string> TubingUpperSuspensionSelected { get; set; }
+        public double TubingUpperSuspensionWidth { get; set; }
+        
         //НКТ вехняя подвеска
         public double TubingLowerSuspensionLengthStart { get; set; }
         public double TubingLowerSuspensionLengthEnd { get; set; }
         public double TubingLowerSuspensionHeightStart { get; set; }
         public double TubingLowerSuspensionHeightEnd { get; set; }
         public int TubingLowerSuspensionIndex { get; set; }
-        public KeyValuePair<int, string> TubingLowerSuspensionSelected { get; set; }
-        
+        public double TubingLowerSuspensionWidth { get; set; }
+                
         public readonly SplineInterpolator Scaller;
 
         public CanvasProps props { get; set; }
 
+        readonly Pipes pipes;
+
         public MainWindowViewModel()
         {
             props = new CanvasProps();
+            pipes = new Pipes();
             //Кондуктор
             ConductorLengthStart = 0;
             ConductorLengthEnd = 452;
             ConductorIsCement = true;
             CasingShoeIndex = 0;
+            //ConductorSelected =  new KeyValuePair<int, string>( pipes.GetByIndex(40).;
            //ЭК
             CasingPipeLengthStart = 0;
             CasingPipeLengthEnd = 3845;
@@ -126,8 +130,6 @@ namespace SmartWell.ViewModels
             AddMarkLevel(canvas, CasingLinerLengthEnd, CasingLinerLengthEnd);
             AddMarkLevel(canvas, TubingUpperSuspensionLengthEnd, TubingUpperSuspensionHeightEnd);
             AddMarkLevel(canvas, TubingUpperSuspensionLengthEnd, TubingLowerSuspensionHeightEnd);
-            
-
         }
 
         private void AddMarkLevel(Panel canvas, double length, double height)
@@ -192,7 +194,6 @@ namespace SmartWell.ViewModels
         public void GenerateCasing(Panel canvas)
         {
             var heights = GetLengthList();
-            
             for (var i = 0; i < heights.Length; i++)
             {
                 var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
@@ -201,5 +202,15 @@ namespace SmartWell.ViewModels
             }
         }
 
+        private void GenerateTubing(Panel canvas)
+        {
+            var heights = GetLengthList().Where(x => x.MarkLabel <= TubingLowerSuspensionLengthEnd).ToArray();
+            for (var i = 0; i < heights.Length; i++)
+            {
+                var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
+                var width = top < TubingUpperSuspensionLengthEnd ? CasingPipeWidth : CasingLinerWidth;
+                FreeRect(canvas, top, width, heights[i].MarkLabel - top, i);
+            }
+        }
     }
 }

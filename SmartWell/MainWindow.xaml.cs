@@ -84,7 +84,9 @@ namespace SmartWell
             MainWindowDataContext.CasingLinerWidth = w3;
             var w4 = pl.GetByIndex(((KeyValuePair<int, string>)CbConductor.SelectedItem).Key).GetDOut();
             var n1 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut();
+            MainWindowDataContext.TubingUpperSuspensionWidth = n1;
             var n2 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut();
+            MainWindowDataContext.TubingLowerSuspensionWidth = n2;
             var maxDiam = (new[] { w1, w2, w3, w4 }).Max();
             var fHeight = (new[] { MainWindowDataContext.CasingShoeLengthEnd,  MainWindowDataContext.CasingPipeLengthEnd, MainWindowDataContext.CasingLinerLengthEnd }).Max();
 
