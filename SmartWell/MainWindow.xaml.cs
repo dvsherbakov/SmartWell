@@ -76,16 +76,17 @@ namespace SmartWell
             gPict.Children.Clear();
 
             var pl = new Pipes();
-
-            var w1 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingShoe.SelectedItem).Key).GetDOut();
-            var w2 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingPipe.SelectedItem).Key).GetDOut();
+            var w1 = CbCasingShoe.SelectedItem !=null ? pl.GetByIndex(((KeyValuePair<int, string>)CbCasingShoe.SelectedItem).Key).GetDOut(): 0;
+            MainWindowDataContext.CasingShoeWidth = w1;
+            var w2 = CbCasingPipe.SelectedItem !=null ? pl.GetByIndex(((KeyValuePair<int, string>)CbCasingPipe.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.CasingPipeWidth = w2;
-            var w3 = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingLiner.SelectedItem).Key).GetDOut();
+            var w3 = CbCasingLiner.SelectedItem!=null ? pl.GetByIndex(((KeyValuePair<int, string>)CbCasingLiner.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.CasingLinerWidth = w3;
-            var w4 = pl.GetByIndex(((KeyValuePair<int, string>)CbConductor.SelectedItem).Key).GetDOut();
-            var n1 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut();
+            var w4 = CbConductor.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbConductor.SelectedItem).Key).GetDOut():0;
+            MainWindowDataContext.ConductorWidth = w4;
+            var n1 = CbTubingUpperSuspension.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.TubingUpperSuspensionWidth = n1;
-            var n2 = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut();
+            var n2 = CbTubingLowerSuspension.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.TubingLowerSuspensionWidth = n2;
             var maxDiam = (new[] { w1, w2, w3, w4 }).Max();
             var fHeight = (new[] { MainWindowDataContext.CasingShoeLengthEnd,  MainWindowDataContext.CasingPipeLengthEnd, MainWindowDataContext.CasingLinerLengthEnd }).Max();
@@ -96,46 +97,12 @@ namespace SmartWell
             MainWindowDataContext.props.dy = dy;
 
             MainWindowDataContext.ShowLengthMarker(gData);
-
+            MainWindowDataContext.GenerateConductor(gPict);
+            MainWindowDataContext.GenerateTechnical(gPict);
+            
             MainWindowDataContext.GenerateCasing(gPict);
-            //foreach (var itm in lenList)
-            //{
-            //    var width = itm.MarkLabel > MainWindowDataContext.CasingPipeLengthEnd ? w2 : w1;
-            //    var rectangle = new Rectangle
-            //    {
-            //        Stroke = new SolidColorBrush(Colors.Gray),
-            //        StrokeThickness = 2,
-            //        Fill = new VolumeGradient(colors[counter]).GetValue(),
-            //        Width = dx * width,
-            //        Height = itm.MarkLabel * dy - prevMark * dy
-            //    };
-            //    Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
-            //    Canvas.SetTop(rectangle, prevMark * dy);
-            //    gPict.Children.Add(rectangle);
-
-            //    counter++;
-            //    prevMark = (int)itm.MarkLabel;
-            //}
-
-            //foreach (var itm in lenList.Where(x => x.MarkLabel <=  MainWindowDataContext.TubingLowerSuspensionLengthEnd))
-            //{
-            //    var width = itm.MarkLabel > MainWindowDataContext.TubingUpperSuspensionLengthEnd ? n2 : n1;
-            //    var rectangle = new Rectangle
-            //    {
-            //        Stroke = new SolidColorBrush(colors[counter]),
-            //        StrokeThickness = 2,
-            //        Fill = new VolumeGradient(colors[counter]).GetValue(),
-            //        Width = dx * width,
-            //        Height = itm.MarkLabel * dy - prevMark * dy
-            //    };
-            //    Canvas.SetLeft(rectangle, sWidth / 2 - dx * width / 2);
-            //    Canvas.SetTop(rectangle, prevMark * dy);
-            //    gPict.Children.Add(rectangle);
-
-            //    counter++;
-            //    prevMark = (int)itm.MarkLabel;
-            //}
-            // MainWindowDataContext.FreeRect(gPict, 0, 380, 2550);
+            MainWindowDataContext.GenerateTubing(gPict);
+           
         }
 
         protected override void OnRender(DrawingContext dc)
@@ -212,6 +179,16 @@ namespace SmartWell
             {
                 pngEncoder.Save(fs);
             }
+        }
+
+        private void FeaturesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateScheme();
+        }
+
+        private void TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateScheme();
         }
     }
 }

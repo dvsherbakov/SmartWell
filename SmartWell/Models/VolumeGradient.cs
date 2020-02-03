@@ -48,7 +48,9 @@ namespace SmartWell.Models
                 Colors.Chocolate,
                 Colors.DarkGreen,
                 Colors.DarkTurquoise,
-                Colors.DarkSalmon
+                Colors.DarkSalmon,
+                Colors.DarkBlue,
+                Colors.Blue
             }.ToArray();
         }
     }
