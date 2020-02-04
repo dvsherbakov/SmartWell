@@ -1,6 +1,7 @@
 ﻿using SmartWell.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,8 @@ namespace SmartWell.ViewModels
         public double CasingPipeHeightEnd { get; set; }
         public int CasingPipeIndex { get; set; }
         public double CasingPipeWidth { get; set; }
-       
+        public Geomethry CasingPipeGeometry { get; set; }
+
         //Хвостовик колонны
         public double CasingLinerLengthStart { get; set; }
         public double CasingLinerLengthEnd { get; set; }
@@ -41,7 +43,8 @@ namespace SmartWell.ViewModels
         public double CasingLinerHeightEnd { get; set; }
         public int CasingLinerIndex { get; set; }
         public double CasingLinerWidth { get; set; }
-        
+        public Geomethry CasingLinerGeometry {get; set;}
+
         //НКТ вехняя подвеска
         public double TubingUpperSuspensionLengthStart { get; set; }
         public double TubingUpperSuspensionLengthEnd { get; set; }
@@ -49,7 +52,8 @@ namespace SmartWell.ViewModels
         public double TubingUpperSuspensionHeightEnd { get; set; }
         public int TubingUpperSuspensionIndex { get; set; }
         public double TubingUpperSuspensionWidth { get; set; }
-        
+        public Geomethry TubingUpperSuspensionGeometry { get; set; }
+
         //НКТ вехняя подвеска
         public double TubingLowerSuspensionLengthStart { get; set; }
         public double TubingLowerSuspensionLengthEnd { get; set; }
@@ -57,17 +61,22 @@ namespace SmartWell.ViewModels
         public double TubingLowerSuspensionHeightEnd { get; set; }
         public int TubingLowerSuspensionIndex { get; set; }
         public double TubingLowerSuspensionWidth { get; set; }
-                
+        public Geomethry TubingLowerSuspensionGeometry { get; set; }
+
+
         public readonly SplineInterpolator Scaller;
 
         public CanvasProps props { get; set; }
 
         readonly Pipes pipes;
 
+        public ObservableCollection<VolumeItem> Volumes { get; set; }
+
         public MainWindowViewModel()
         {
             props = new CanvasProps();
             pipes = new Pipes();
+            Volumes = new ObservableCollection<VolumeItem>();
             //Кондуктор
             ConductorLengthStart = 0;
             ConductorLengthEnd = 452;
@@ -235,6 +244,9 @@ namespace SmartWell.ViewModels
             {
                 var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
                 var width = top < CasingPipeLengthEnd ? CasingPipeWidth : CasingLinerWidth;
+                var geometry = top < CasingPipeLengthEnd ? CasingPipeGeometry : CasingLinerGeometry;
+                geometry.SetLen(heights[i].MarkLabel - top);
+                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geometry });
                 FreeRect(canvas, top, width, heights[i].MarkLabel-top, i);
             }
         }
@@ -254,6 +266,7 @@ namespace SmartWell.ViewModels
 
         public void GenerateShema(Panel canvas)
         {
+            Volumes.Clear();
             GenerateConductor(canvas);
             GenerateTechnical(canvas);
             GenerateCasing(canvas);

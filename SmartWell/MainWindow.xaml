@@ -10,6 +10,16 @@
         WindowStartupLocation="CenterScreen"
         Height="{Binding SystemParameters.PrimaryScreenHeight}" 
         Width="{Binding SystemParameters.PrimaryScreenWidth}">
+    
+    <Window.Resources>
+        <Style x:Key="ListViewStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+        <Style x:Key="LstViewItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
@@ -267,6 +277,22 @@
                     BorderThickness="1" 
                 Margin="1"
                     CornerRadius="8,8,3,3">
+        </Border>
+        <Border Background="GhostWhite" Grid.Column="3" Grid.Row="1"
+                BorderBrush="Silver" BorderThickness="1" Margin="1"
+                CornerRadius="8,8,3,3">
+            <ScrollViewer>
+                <ListView Margin="10" ItemsSource="{Binding Items}" HorizontalAlignment="Left" HorizontalContentAlignment="Left">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" Header="Положение"  DisplayMemberBinding="{Binding Id}" />
+                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" Header="Объём"  DisplayMemberBinding="{Binding PipeProps.GetVolume}" />
+                        </GridView>
+                        
+                    </ListView.View>
+                    ItemContainerStyle="{StaticResource LstViewItemContainerStyle}"
+                </ListView>
+            </ScrollViewer>
         </Border>
     </Grid>
 </Window>

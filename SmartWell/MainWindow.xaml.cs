@@ -76,12 +76,15 @@ namespace SmartWell
             gPict.Children.Clear();
 
             var pl = new Pipes();
+            if (CbCasingShoe.SelectedItem == null || CbCasingPipe.SelectedItem==null || CbCasingLiner.SelectedItem==null) return;
             var w1 = CbCasingShoe.SelectedItem !=null ? pl.GetByIndex(((KeyValuePair<int, string>)CbCasingShoe.SelectedItem).Key).GetDOut(): 0;
             MainWindowDataContext.CasingShoeWidth = w1;
             var w2 = CbCasingPipe.SelectedItem !=null ? pl.GetByIndex(((KeyValuePair<int, string>)CbCasingPipe.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.CasingPipeWidth = w2;
+            MainWindowDataContext.CasingPipeGeometry = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingPipe.SelectedItem).Key);
             var w3 = CbCasingLiner.SelectedItem!=null ? pl.GetByIndex(((KeyValuePair<int, string>)CbCasingLiner.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.CasingLinerWidth = w3;
+            MainWindowDataContext.CasingLinerGeometry = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingLiner.SelectedItem).Key);
             var w4 = CbConductor.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbConductor.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.ConductorWidth = w4;
             var n1 = CbTubingUpperSuspension.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut():0;
