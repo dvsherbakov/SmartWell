@@ -96,12 +96,9 @@ namespace SmartWell
             MainWindowDataContext.props.dx = dx;
             MainWindowDataContext.props.dy = dy;
 
+            MainWindowDataContext.GenerateShema(gPict);
             MainWindowDataContext.ShowLengthMarker(gData);
-            MainWindowDataContext.GenerateConductor(gPict);
-            MainWindowDataContext.GenerateTechnical(gPict);
             
-            MainWindowDataContext.GenerateCasing(gPict);
-            MainWindowDataContext.GenerateTubing(gPict);
            
         }
 
@@ -112,56 +109,56 @@ namespace SmartWell
 
         private void GDigit_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            UpdateLayout();
+            //UpdateLayout();
             
-            var sWidth = gPict.ActualWidth;
-            var sHeight = gPict.ActualHeight;
+            //var sWidth = gPict.ActualWidth;
+            //var sHeight = gPict.ActualHeight;
             
-            var fHeight = MainWindowDataContext.CasingPipeLengthEnd + MainWindowDataContext.CasingLinerLengthEnd;
+            //var fHeight = MainWindowDataContext.CasingPipeLengthEnd + MainWindowDataContext.CasingLinerLengthEnd;
             
-            var dy = sHeight / fHeight;
-            var t = e.GetPosition(gPict);
-            gDigit.Children.Clear();
-            var rLine = new Line
-            {
-                Stroke = Brushes.LightSteelBlue,
-                X1 = sWidth - 20,
-                X2 = sWidth - 75,
-                Y1 = t.Y,
-                Y2 = t.Y,
-                StrokeThickness = 2
-            };
-            gDigit.Children.Add(rLine);
+            //var dy = sHeight / fHeight;
+            //var t = e.GetPosition(gPict);
+            //gDigit.Children.Clear();
+            //var rLine = new Line
+            //{
+            //    Stroke = Brushes.LightSteelBlue,
+            //    X1 = sWidth - 20,
+            //    X2 = sWidth - 75,
+            //    Y1 = t.Y,
+            //    Y2 = t.Y,
+            //    StrokeThickness = 2
+            //};
+            //gDigit.Children.Add(rLine);
 
-            var lLine = new Line
-            {
-                Stroke = Brushes.LightSteelBlue,
-                X1 = 20,
-                X2 = 75,
-                Y1 = t.Y,
-                Y2 = t.Y,
-                StrokeThickness = 2
-            };
-            gDigit.Children.Add(lLine);
+            //var lLine = new Line
+            //{
+            //    Stroke = Brushes.LightSteelBlue,
+            //    X1 = 20,
+            //    X2 = 75,
+            //    Y1 = t.Y,
+            //    Y2 = t.Y,
+            //    StrokeThickness = 2
+            //};
+            //gDigit.Children.Add(lLine);
 
-            var textBlock = new TextBlock
-            {
-                Text = (t.Y/dy).ToString("F0"),
-                Foreground = new SolidColorBrush(Colors.DarkGray)
-            };
-            Canvas.SetLeft(textBlock, 30);
-            Canvas.SetTop(textBlock, t.Y);
-            gDigit.Children.Add(textBlock);
+            //var textBlock = new TextBlock
+            //{
+            //    Text = (t.Y/dy).ToString("F0"),
+            //    Foreground = new SolidColorBrush(Colors.DarkGray)
+            //};
+            //Canvas.SetLeft(textBlock, 30);
+            //Canvas.SetTop(textBlock, t.Y);
+            //gDigit.Children.Add(textBlock);
 
-            if (!(t.Y > 0)) return;
-            var heightBlock = new TextBlock
-            {
-                Text = (MainWindowDataContext.Scaller.GetValue(t.Y / dy)).ToString("F0"),
-                Foreground = new SolidColorBrush(Colors.DarkGray)
-            };
-            Canvas.SetLeft(heightBlock, sWidth - 65);
-            Canvas.SetTop(heightBlock, t.Y);
-            gDigit.Children.Add(heightBlock);
+            //if (!(t.Y > 0)) return;
+            //var heightBlock = new TextBlock
+            //{
+            //    Text = (MainWindowDataContext.Scaller.GetValue(t.Y / dy)).ToString("F0"),
+            //    Foreground = new SolidColorBrush(Colors.DarkGray)
+            //};
+            //Canvas.SetLeft(heightBlock, sWidth - 65);
+            //Canvas.SetTop(heightBlock, t.Y);
+            //gDigit.Children.Add(heightBlock);
         }
 
         private void SaveToImage()

@@ -133,8 +133,8 @@ namespace SmartWell.ViewModels
 
             canvas.Children.Clear();
             AddMarkLevel(canvas, CasingPipeLengthEnd, CasingPipeHeightEnd);
-            AddMarkLevel(canvas, CasingLinerLengthEnd, CasingLinerLengthEnd);
-            AddMarkLevel(canvas, TubingUpperSuspensionLengthEnd, TubingUpperSuspensionHeightEnd);
+            AddMarkLevel(canvas, CasingLinerLengthEnd, CasingLinerHeightEnd);
+            //AddMarkLevel(canvas, TubingUpperSuspensionLengthEnd, TubingUpperSuspensionHeightEnd);
             AddMarkLevel(canvas, TubingUpperSuspensionLengthEnd, TubingLowerSuspensionHeightEnd);
         }
 
@@ -250,6 +250,14 @@ namespace SmartWell.ViewModels
                     : TubingLowerSuspensionWidth;
                 FreeRect(canvas, top, width, heights[i].MarkLabel - top, 4+i);
             }
+        }
+
+        public void GenerateShema(Panel canvas)
+        {
+            GenerateConductor(canvas);
+            GenerateTechnical(canvas);
+            GenerateCasing(canvas);
+            GenerateTubing(canvas);
         }
     }
 }

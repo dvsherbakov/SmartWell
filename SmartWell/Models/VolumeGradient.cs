@@ -40,17 +40,17 @@ namespace SmartWell.Models
     {
         public static Color[] Volumes()
         {
-            return new List<Color>() { 
-                Colors.BlueViolet,
-                Colors.Brown,
-                Colors.DarkKhaki,
-                Colors.DarkOliveGreen,
-                Colors.Chocolate,
-                Colors.DarkGreen,
-                Colors.DarkTurquoise,
-                Colors.DarkSalmon,
-                Colors.DarkBlue,
-                Colors.Blue
+            return new List<Color>() {
+                (Color)ColorConverter.ConvertFromString("#3366FF"),
+                (Color)ColorConverter.ConvertFromString("#3333CC"),
+                (Color)ColorConverter.ConvertFromString("#0033CC"),
+                (Color)ColorConverter.ConvertFromString("#0066CC"),
+                (Color)ColorConverter.ConvertFromString("#0099FF"),
+                (Color)ColorConverter.ConvertFromString("#0066FF"),
+                (Color)ColorConverter.ConvertFromString("#006699"),
+                (Color)ColorConverter.ConvertFromString("#336699"),
+                (Color)ColorConverter.ConvertFromString("#00CCFF"),
+                (Color)ColorConverter.ConvertFromString("#000033"),
             }.ToArray();
         }
     }
