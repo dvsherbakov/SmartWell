@@ -102,7 +102,7 @@ namespace SmartWell
             MainWindowDataContext.GenerateShema(gPict);
             MainWindowDataContext.ShowLengthMarker(gData);
             
-           
+           //gDigit = new PictModel(MainWindowDataContext).ReturnCanvas();
         }
 
         protected override void OnRender(DrawingContext dc)
@@ -164,23 +164,7 @@ namespace SmartWell
             //gDigit.Children.Add(heightBlock);
         }
 
-        private void SaveToImage()
-        {
-            var rtb = new RenderTargetBitmap((int)gPict.RenderSize.Width,
-                (int)gPict.RenderSize.Height, 96d, 96d, System.Windows.Media.PixelFormats.Default);
-            rtb.Render(gPict);
-
-            var crop = new CroppedBitmap(rtb, new Int32Rect(50, 50, 250, 250));
-
-            BitmapEncoder pngEncoder = new PngBitmapEncoder();
-            pngEncoder.Frames.Add(BitmapFrame.Create(crop));
-
-            using (var fs = System.IO.File.OpenWrite("logo.png"))
-            {
-                pngEncoder.Save(fs);
-            }
-        }
-
+        
         private void FeaturesChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateScheme();
@@ -189,6 +173,12 @@ namespace SmartWell
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateScheme();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var exportC = new PictModel(gPict);
+            gPict = exportC.ReturnCanvas();
         }
     }
 }
