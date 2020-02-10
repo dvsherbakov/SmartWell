@@ -40,18 +40,19 @@ namespace SmartWell.Models
     {
         public static Color[] Volumes()
         {
-            return new List<Color>() {
-                (Color)ColorConverter.ConvertFromString("#3366FF"),
-                (Color)ColorConverter.ConvertFromString("#3333CC"),
-                (Color)ColorConverter.ConvertFromString("#0033CC"),
-                (Color)ColorConverter.ConvertFromString("#0066CC"),
-                (Color)ColorConverter.ConvertFromString("#0099FF"),
-                (Color)ColorConverter.ConvertFromString("#0066FF"),
-                (Color)ColorConverter.ConvertFromString("#006699"),
-                (Color)ColorConverter.ConvertFromString("#336699"),
-                (Color)ColorConverter.ConvertFromString("#00CCFF"),
-                (Color)ColorConverter.ConvertFromString("#000033"),
+            var result = new List<Color>() {
+                (Color) ColorConverter.ConvertFromString("#CCCCCC"),
+                (Color) ColorConverter.ConvertFromString("#BBBBBB"),
+                (Color) ColorConverter.ConvertFromString("#AAAAAA"),
+                (Color) ColorConverter.ConvertFromString("#999999"),
+                (Color) ColorConverter.ConvertFromString("#888888"),
+                (Color) ColorConverter.ConvertFromString("#777777"),
+                (Color) ColorConverter.ConvertFromString("#666666"),
+                (Color) ColorConverter.ConvertFromString("#555555"),
+                (Color) ColorConverter.ConvertFromString("#444444"),
+                (Color) ColorConverter.ConvertFromString("#333333"),
             }.ToArray();
+            return result;
         }
     }
 

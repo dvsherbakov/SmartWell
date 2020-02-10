@@ -126,7 +126,7 @@ namespace SmartWell.ViewModels
                 .ToDictionary(pair => pair.Key, pair => pair.Value));
         }
 
-        public LengthItem[] GetLengthList()
+        private LengthItem[] GetLengthList()
         {
             return new List<LengthItem>
             {
@@ -221,7 +221,7 @@ namespace SmartWell.ViewModels
             canvas.Children.Add(rectangle);
         }
 
-        public void GenerateConductor(Panel canvas)
+        private void GenerateConductor(Panel canvas)
         {
             if (ConductorIsCement)
                 HatchingRect(canvas, 0, ConductorWidth, ConductorLengthEnd, 0);
@@ -229,7 +229,7 @@ namespace SmartWell.ViewModels
                 FreeRect(canvas, 0, ConductorWidth, ConductorLengthEnd, 8);
         }
 
-        public void GenerateTechnical(Panel canvas)
+        private void GenerateTechnical(Panel canvas)
         {
             if (CasingShoeIsCement)
                 HatchingRect(canvas, 0, CasingShoeWidth, CasingShoeLengthEnd, 1);
@@ -237,7 +237,7 @@ namespace SmartWell.ViewModels
                 FreeRect(canvas, 0, CasingShoeWidth, CasingShoeLengthEnd, 7);
         }
 
-        public void GenerateCasing(Panel canvas)
+        private void GenerateCasing(Panel canvas)
         {
             var heights = GetLengthList();
             for (var i = 0; i < heights.Length; i++)
@@ -251,7 +251,7 @@ namespace SmartWell.ViewModels
             }
         }
 
-        public void GenerateTubing(Panel canvas)
+        private void GenerateTubing(Panel canvas)
         {
             var heights = GetLengthList().Where(x => x.MarkLabel <= TubingLowerSuspensionLengthEnd).ToArray();
             for (var i = 0; i < heights.Length; i++)
