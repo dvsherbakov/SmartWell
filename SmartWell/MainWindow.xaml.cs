@@ -8,12 +8,13 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace SmartWell
 {
     public partial class MainWindow : Window
     {
         private MainWindowViewModel MainWindowDataContext { get; set; }
-
+        private PictModel ExPict;
 
         public MainWindow()
         {
@@ -58,6 +59,8 @@ namespace SmartWell
             CbConductor.DisplayMemberPath = "Value";
 
             DataContext = MainWindowDataContext;
+
+            ExPict = new PictModel();
         }
 
         private void SetCasingScheme()
@@ -102,6 +105,7 @@ namespace SmartWell
             MainWindowDataContext.GenerateShema(gPict);
             MainWindowDataContext.ShowLengthMarker(gData);
             
+            ExPict.GeneratePict();
            //gDigit = new PictModel(MainWindowDataContext).ReturnCanvas();
         }
 
@@ -177,8 +181,10 @@ namespace SmartWell
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var exportC = new PictModel(gPict);
-            gPict = exportC.ReturnCanvas();
+
+            ExPict.SavePict();
         }
+
+
     }
 }

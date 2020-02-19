@@ -276,6 +276,10 @@
             </ScrollViewer>
         </Border>
 
+        <Canvas Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" 
+                Width="1240" Height="1754"
+                x:Name="gBig"/>
+
         <Border Background="GhostWhite" 
                  Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2"
                     BorderBrush="Silver" 

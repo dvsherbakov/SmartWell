@@ -1,6 +1,6 @@
-﻿using SmartWell.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,72 +9,48 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Svg;
+using SvgNet;
+using SvgNet.SvgElements;
+using SvgNet.SvgTypes;
+using Color = System.Drawing.Color;
+using Pen = System.Drawing.Pen;
 
 namespace SmartWell.Models
 {
-    class PictModel
+    internal class PictModel
     {
         private readonly int X;
         private readonly int Y;
-        private Canvas canvas;
+        private readonly SvgSvgElement _root;
 
-        MainWindowViewModel ViewModel { get; set; }
-
-        public PictModel(Canvas cn)
+        public PictModel()
         {
-            
-            X = 1240; Y = 1754;
-            Canvas canvas = new Canvas();
-            canvas.Width = X;
-            canvas.Height = Y;
-            
-
-            canvas.Background = Brushes.LightSteelBlue;
-
-            var svgImage = new Svg.SvgImage
-            {
-                Width = X,
-                Height = Y
-            };
-
-            SvgRectangle rect = new SvgRectangle() { Width = 10, Height = 20, X = 50, Y = 44 };
-            svgImage.Children.Add(rect);
-            
-
-            // Add a "Hello World!" text element to the Canvas
-            TextBlock txt1 = new TextBlock();
-            txt1.FontSize = 14;
-            txt1.Text = "Hello World!";
-            Canvas.SetTop(txt1, 100);
-            Canvas.SetLeft(txt1, 10);
-            canvas.Children.Add(txt1);
-
-            // Add a second text element to show how absolute positioning works in a Canvas
-            TextBlock txt2 = new TextBlock();
-            txt2.FontSize = 22;
-            txt2.Text = "Isn't absolute positioning handy?";
-            Canvas.SetTop(txt2, 200);
-            Canvas.SetLeft(txt2, 75);
-            canvas.Children.Add(txt2);
-
-            var rtb = new RenderTargetBitmap((int)canvas.ActualWidth, (int)canvas.ActualHeight, 100d, 100d, PixelFormats.Default);
-            rtb.Render(canvas);
-
-            var crop = new CroppedBitmap(rtb, new Int32Rect(0, 0, (int)canvas.ActualWidth, (int)canvas.ActualHeight));
-
-            BitmapEncoder pngEncoder = new PngBitmapEncoder();
-            pngEncoder.Frames.Add(BitmapFrame.Create(crop));
-
-            using (var fs = System.IO.File.OpenWrite("logo.png"))
-            {
-                pngEncoder.Save(fs);
-            }
+            X = 1240;
+            Y = 1754;
+            _root = new SvgSvgElement("210mm", "297mm", $"0,0, {X}, {Y}");
         }
 
-        public Canvas ReturnCanvas()
+        public void GeneratePict()
         {
-            return canvas;
+            _root.AddChildren(
+                new SvgRectElement(5, 5, X-5, Y-5) {Style = new SvgStyle(new Pen(Color.Bisque,3))},
+               
+                new SvgAElement("https://github.com/managed-commons/SvgNet").AddChildren(
+                    new SvgTextElement("50", 50, 50){Style = "fill:midnightblue;stroke:navy;stroke-width:0.5px;font-size:12px;font-family:Arial"},
+                    new SvgTextElement("100", 50, 100){Style = "font-style:normal;font-weight:normal;font-size:3.52777767px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"},
+                    new SvgTextElement("150", 50, 150){Style = "fill:midnightblue;font-weight:100;stroke-width:1.5px;font-size:18px;font-family:Arial" }
+                    )
+            );
+        }
+
+        public void SavePict()
+        {
+            File.WriteAllText("logo.svg", _root.WriteSVGString(false));
+        }
+
+        public SvgSvgElement ReturnCanvas()
+        {
+            return _root;
         }
     }
 }
