@@ -272,5 +272,15 @@ namespace SmartWell.ViewModels
             GenerateCasing(canvas);
             GenerateTubing(canvas);
         }
+
+        public double MaxDiam()
+        {
+            return (new[] { ConductorWidth, CasingShoeWidth, CasingPipeWidth, CasingLinerWidth }).Max();
+        }
+
+        public double MaxLength()
+        {
+            return (new[] { CasingShoeLengthEnd, CasingPipeLengthEnd, CasingLinerLengthEnd }).Max();
+        }
     }
 }

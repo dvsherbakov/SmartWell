@@ -94,8 +94,8 @@ namespace SmartWell
             MainWindowDataContext.TubingUpperSuspensionWidth = n1;
             var n2 = CbTubingLowerSuspension.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.TubingLowerSuspensionWidth = n2;
-            var maxDiam = (new[] { w1, w2, w3, w4 }).Max();
-            var fHeight = (new[] { MainWindowDataContext.CasingShoeLengthEnd,  MainWindowDataContext.CasingPipeLengthEnd, MainWindowDataContext.CasingLinerLengthEnd }).Max();
+            var maxDiam = MainWindowDataContext.MaxDiam();
+            var fHeight = MainWindowDataContext.MaxLength();
 
             var dx = sWidth / 3 / maxDiam;
             var dy = sHeight / fHeight;
@@ -105,7 +105,7 @@ namespace SmartWell
             MainWindowDataContext.GenerateShema(gPict);
             MainWindowDataContext.ShowLengthMarker(gData);
             
-            ExPict.GeneratePict();
+            ExPict.GeneratePict(MainWindowDataContext);
            //gDigit = new PictModel(MainWindowDataContext).ReturnCanvas();
         }
 
