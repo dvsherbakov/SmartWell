@@ -19,6 +19,9 @@ namespace SmartWell.Models
         private bool ConductorIsCement;
         private double ConductorWidth;
         private double ConductorLengthEnd;
+        private bool CasingShoeIsCement;
+        private double CasingShoeWidth;
+        private double CasingShoeLengthEnd;
 
         public PictModel()
         {
@@ -41,7 +44,9 @@ namespace SmartWell.Models
                 Color.FromArgb(75,75,75),
                 Color.FromArgb(100,100,100),
                 Color.FromArgb(35,35,35),
-                Color.FromArgb(120,120,120)
+                Color.FromArgb(120,120,120),
+                Color.FromArgb(30,30,30),
+                Color.FromArgb(95,95,95),
             }.ToArray();
         }
 
@@ -81,6 +86,11 @@ namespace SmartWell.Models
                     HatchingRect(gr, 0, ConductorWidth, ConductorLengthEnd, 0);
                 else
                     FreeRect(gr, 0, ConductorWidth, ConductorLengthEnd, 8);
+
+                if (CasingShoeIsCement)
+                    HatchingRect(gr, 0, CasingShoeWidth, CasingShoeLengthEnd, 1);
+                else
+                    FreeRect(gr, 0, CasingShoeWidth, CasingShoeLengthEnd, 7);
 
                 //gr.FillRectangle(_gradients[0], new Rectangle(50, 50, _x - 50*2, _y - 50*2));
                 //gr.FillRectangle(_gradients[1], new Rectangle(100, 100, _x - 100 * 2, _y - 100 * 2));
@@ -128,6 +138,9 @@ namespace SmartWell.Models
             ConductorIsCement = vm.ConductorIsCement;
             ConductorWidth = vm.ConductorWidth;
             ConductorLengthEnd = vm.ConductorLengthEnd;
+            CasingShoeIsCement = vm.CasingShoeIsCement;
+            CasingShoeWidth = vm.CasingShoeWidth;
+            CasingShoeLengthEnd = vm.CasingShoeLengthEnd;
         }
 
         private SolidBrush GenerateBrush(int c)
