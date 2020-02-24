@@ -13,7 +13,12 @@ namespace SmartWell.Models
         private readonly int _y;
         private double _dX, _dY;
         private readonly Metafile _mf;
-        private readonly HatchBrush[] _gradients;
+        private readonly HatchBrush[] _gradientsHatch;
+        private readonly Color[] _colors;
+
+        private bool ConductorIsCement;
+        private double ConductorWidth;
+        private double ConductorLengthEnd;
 
         public PictModel()
         {
@@ -21,11 +26,22 @@ namespace SmartWell.Models
             _y = 960*3;
            
             _mf = MakeMetaFile(_x, _y, "logo.emf");
-            _gradients = new List<HatchBrush> { 
+            _gradientsHatch = new List<HatchBrush> { 
                 new HatchBrush(HatchStyle.DarkDownwardDiagonal, Color.Black, Color.White),
                 new HatchBrush(HatchStyle.DarkUpwardDiagonal, Color.Black, Color.White),
                 new HatchBrush(HatchStyle.DarkHorizontal, Color.Black, Color.White),
                 new HatchBrush(HatchStyle.BackwardDiagonal, Color.Black, Color.White)
+            }.ToArray();
+
+            _colors = new List<Color>
+            {
+                Color.FromArgb(150,150,150),
+                Color.FromArgb(50,50,50),
+                Color.FromArgb(175,175,175),
+                Color.FromArgb(75,75,75),
+                Color.FromArgb(100,100,100),
+                Color.FromArgb(35,35,35),
+                Color.FromArgb(120,120,120)
             }.ToArray();
         }
 
@@ -61,24 +77,29 @@ namespace SmartWell.Models
                 gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                gr.FillRectangle(_gradients[0], new Rectangle(50, 50, _x - 50*2, _y - 50*2));
-                gr.FillRectangle(_gradients[1], new Rectangle(100, 100, _x - 100 * 2, _y - 100 * 2));
-                gr.FillRectangle(_gradients[2], new Rectangle(150, 150, _x - 150 * 2, _y - 150 * 2));
-                gr.FillRectangle(_gradients[3], new Rectangle(200, 200, _x - 200 * 2, _y - 200 * 2));
+                if (ConductorIsCement)
+                    HatchingRect(gr, 0, ConductorWidth, ConductorLengthEnd, 0);
+                else
+                    FreeRect(gr, 0, ConductorWidth, ConductorLengthEnd, 8);
 
-                using (Brush brush = new SolidBrush(
-                    Color.FromArgb(128, 128, 128, 255)))
-                {
-                    gr.FillEllipse(brush, 25, 5, 50, 90);
-                }
-                Point[] points =
-                {
-                    new Point(50, 5),
-                    new Point(94, 50),
-                    new Point(50, 94),
-                    new Point(5, 50),
-                };
-                gr.DrawPolygon(Pens.Blue, points);
+                //gr.FillRectangle(_gradients[0], new Rectangle(50, 50, _x - 50*2, _y - 50*2));
+                //gr.FillRectangle(_gradients[1], new Rectangle(100, 100, _x - 100 * 2, _y - 100 * 2));
+                //gr.FillRectangle(_gradients[2], new Rectangle(150, 150, _x - 150 * 2, _y - 150 * 2));
+                //gr.FillRectangle(_gradients[3], new Rectangle(200, 200, _x - 200 * 2, _y - 200 * 2));
+
+                //using (Brush brush = new SolidBrush(
+                //    Color.FromArgb(128, 128, 128, 255)))
+                //{
+                //    gr.FillEllipse(brush, 25, 5, 50, 90);
+                //}
+                //Point[] points =
+                //{
+                //    new Point(50, 5),
+                //    new Point(94, 50),
+                //    new Point(50, 94),
+                //    new Point(5, 50),
+                //};
+                //gr.DrawPolygon(Pens.Blue, points);
 
                 var drawFont = new Font(FontFamily.GenericSansSerif,16.0F, FontStyle.Regular);
                 var drawBrush = new SolidBrush(Color.Black);
@@ -89,16 +110,35 @@ namespace SmartWell.Models
 
             }
         }
-        
+
+        private void FreeRect(Graphics g, double top, double width, double height, int colorNum)
+        {
+            g.FillRectangle(GenerateBrush(colorNum), new Rectangle((int)(_x / 2 - _dX * width / 2), (int)top, (int)(width*_dX), (int)(height*_dY)));
+        }
+
+        private void HatchingRect(Graphics g, double top, double width, double height, int colorNum)
+        {
+            g.FillRectangle(_gradientsHatch[colorNum], new Rectangle((int)(_x / 2 - _dX * width / 2), (int)top, (int)(width * _dX), (int)(height * _dY)));
+        }
+
         public void GeneratePict(MainWindowViewModel vm)
         {
-            _dX = _x / vm.MaxDiam();
+            _dX = _x / 3 / vm.MaxDiam();
             _dY = _y / vm.MaxLength();
+            ConductorIsCement = vm.ConductorIsCement;
+            ConductorWidth = vm.ConductorWidth;
+            ConductorLengthEnd = vm.ConductorLengthEnd;
+        }
+
+        private SolidBrush GenerateBrush(int c)
+        {
+            return new SolidBrush(_colors[c]);
         }
 
         public void SavePict()
         {
             DrawOnMetaFile();
+            
         }
 
     }
