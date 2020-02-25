@@ -35,7 +35,7 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" Grid.Column="1" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 13">
+        <Menu Grid.Row="0" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" >
             <MenuItem Header="File">
                 <MenuItem Header="Export" Click="MenuItem_Click" />
             </MenuItem>

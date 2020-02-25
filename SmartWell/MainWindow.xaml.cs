@@ -102,7 +102,7 @@ namespace SmartWell
             MainWindowDataContext.props.dx = dx;
             MainWindowDataContext.props.dy = dy;
 
-            MainWindowDataContext.GenerateShema(gPict);
+            MainWindowDataContext.GenerateSchema(gPict);
             MainWindowDataContext.ShowLengthMarker(gData);
             
             ExPict.GeneratePict(MainWindowDataContext);

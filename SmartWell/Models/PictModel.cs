@@ -1,7 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Windows.Controls;
 using SmartWell.ViewModels;
 using Color = System.Drawing.Color;
 
@@ -12,23 +18,37 @@ namespace SmartWell.Models
         private readonly int _x;
         private readonly int _y;
         private double _dX, _dY;
-        private readonly Metafile _mf;
+        private Metafile _mf;
         private readonly HatchBrush[] _gradientsHatch;
         private readonly Color[] _colors;
 
-        private bool ConductorIsCement;
-        private double ConductorWidth;
-        private double ConductorLengthEnd;
-        private bool CasingShoeIsCement;
-        private double CasingShoeWidth;
-        private double CasingShoeLengthEnd;
+        private bool _conductorIsCement;
+        private double _conductorWidth;
+        private double _conductorLengthEnd;
+        private bool _casingShoeIsCement;
+        private double _casingShoeWidth;
+        private double _casingShoeLengthEnd;
+        private LengthItem[] _lItem;
+        private double _casingPipeLengthEnd;
+        private double _casingPipeWidth;
+        private double _casingLinerWidth;
+        private readonly Font _drawFont;
+        private readonly SolidBrush _drawBrush;
+        private readonly StringFormat _drawFormat;
+        private double _tubingUpperSuspensionLengthEnd;
+        private double _tubingUpperSuspensionWidth;
+        private double _tubingLowerSuspensionWidth;
+        private double _tubingLowerSuspensionLengthEnd;
 
         public PictModel()
         {
             _x = 625*3;
             _y = 960*3;
-           
-            _mf = MakeMetaFile(_x, _y, "logo.emf");
+
+            _drawFont = new Font(FontFamily.GenericSansSerif, 12.0F, FontStyle.Regular);
+            _drawBrush = new SolidBrush(Color.Black);
+            _drawFormat = new StringFormat();
+
             _gradientsHatch = new List<HatchBrush> { 
                 new HatchBrush(HatchStyle.DarkDownwardDiagonal, Color.Black, Color.White),
                 new HatchBrush(HatchStyle.DarkUpwardDiagonal, Color.Black, Color.White),
@@ -41,6 +61,7 @@ namespace SmartWell.Models
                 Color.FromArgb(150,150,150),
                 Color.FromArgb(50,50,50),
                 Color.FromArgb(175,175,175),
+                Color.FromArgb(125,125,125),
                 Color.FromArgb(75,75,75),
                 Color.FromArgb(100,100,100),
                 Color.FromArgb(35,35,35),
@@ -53,6 +74,7 @@ namespace SmartWell.Models
         private static Metafile MakeMetaFile(float width, float height,
             string filename)
         {
+            if (File.Exists(filename)) return null;
             using (var bm = new Bitmap(16, 16))
             {
                 using (var gr = Graphics.FromImage(bm))
@@ -76,26 +98,39 @@ namespace SmartWell.Models
 
         private void DrawOnMetaFile()
         {
+            var tmpDate = DateTime.Now.ToShortTimeString().Replace(':','_');
+            _mf = MakeMetaFile(_x, _y, $"logo-{tmpDate}.emf");
             using (var gr = Graphics.FromImage(_mf))
             {
                 gr.SmoothingMode = SmoothingMode.AntiAlias;
                 gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                if (ConductorIsCement)
-                    HatchingRect(gr, 0, ConductorWidth, ConductorLengthEnd, 0);
+                if (_conductorIsCement)
+                    HatchingRect(gr, 0, _conductorWidth, _conductorLengthEnd, 0);
                 else
-                    FreeRect(gr, 0, ConductorWidth, ConductorLengthEnd, 8);
+                    FreeRect(gr, 0, _conductorWidth, _conductorLengthEnd, 8);
+                SetLengthMarker(gr, _conductorLengthEnd, _conductorWidth, "Кондуктор");
 
-                if (CasingShoeIsCement)
-                    HatchingRect(gr, 0, CasingShoeWidth, CasingShoeLengthEnd, 1);
+                if (_casingShoeIsCement)
+                    HatchingRect(gr, 0, _casingShoeWidth, _casingShoeLengthEnd, 1);
                 else
-                    FreeRect(gr, 0, CasingShoeWidth, CasingShoeLengthEnd, 7);
+                    FreeRect(gr, 0, _casingShoeWidth, _casingShoeLengthEnd, 7);
 
-                //gr.FillRectangle(_gradients[0], new Rectangle(50, 50, _x - 50*2, _y - 50*2));
-                //gr.FillRectangle(_gradients[1], new Rectangle(100, 100, _x - 100 * 2, _y - 100 * 2));
-                //gr.FillRectangle(_gradients[2], new Rectangle(150, 150, _x - 150 * 2, _y - 150 * 2));
-                //gr.FillRectangle(_gradients[3], new Rectangle(200, 200, _x - 200 * 2, _y - 200 * 2));
+                for (var i = 0; i < _lItem.Length; i++)
+                {
+                    var top = i == 0 ? 0 : _lItem[i - 1].MarkLabel;
+                    var width = top < _casingPipeLengthEnd ? _casingPipeWidth : _casingLinerWidth;
+                    FreeRect(gr, top, width, _lItem[i].MarkLabel - top, i);
+                }
+
+                var heights = _lItem.ToList().Where(x => x.MarkLabel <= _tubingLowerSuspensionLengthEnd).ToArray();
+                for (var i = 0; i < heights.Length; i++)
+                {
+                    var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
+                    var width = top < _tubingUpperSuspensionLengthEnd ? _tubingUpperSuspensionWidth : _tubingLowerSuspensionWidth;
+                    FreeRect(gr, top, width, heights[i].MarkLabel - top, 4 + i);
+                }
 
                 //using (Brush brush = new SolidBrush(
                 //    Color.FromArgb(128, 128, 128, 255)))
@@ -111,36 +146,49 @@ namespace SmartWell.Models
                 //};
                 //gr.DrawPolygon(Pens.Blue, points);
 
-                var drawFont = new Font(FontFamily.GenericSansSerif,16.0F, FontStyle.Regular);
-                var drawBrush = new SolidBrush(Color.Black);
-                const float x = 150.0F;
-                var y = 50.0F;
-                var drawFormat = new StringFormat();
-                gr.DrawString("1660", drawFont, drawBrush, x, y, drawFormat);
-
             }
+        }
+
+        private void SetLengthMarker(Graphics g, double len, double width, string additionText)
+        {
+            var mainTextLength = (len).ToString(CultureInfo.InvariantCulture).Length;
+            var additionTextLength = additionText.Length;
+            var max = new[] { mainTextLength, additionTextLength}.Max();
+            g.DrawString((len).ToString(CultureInfo.InvariantCulture), _drawFont, _drawBrush, _x-150+(max-mainTextLength)/2*8, (float)(len * _dY), _drawFormat);
+            g.DrawString(additionText, _drawFont, _drawBrush, _x - 150 + (additionTextLength/2) * 8, (float)(len * _dY-20), _drawFormat);
+
         }
 
         private void FreeRect(Graphics g, double top, double width, double height, int colorNum)
         {
-            g.FillRectangle(GenerateBrush(colorNum), new Rectangle((int)(_x / 2 - _dX * width / 2), (int)top, (int)(width*_dX), (int)(height*_dY)));
+            g.FillRectangle(GenerateBrush(colorNum), new Rectangle((int)(_x / 2 - _dX * width / 2), (int)(top*_dY), (int)(width*_dX), (int)(height*_dY)));
+            //g.DrawString((top+height).ToString(CultureInfo.InvariantCulture), _drawFont, _drawBrush, 150, (float)((top + height) * _dY), _drawFormat);
         }
 
         private void HatchingRect(Graphics g, double top, double width, double height, int colorNum)
         {
-            g.FillRectangle(_gradientsHatch[colorNum], new Rectangle((int)(_x / 2 - _dX * width / 2), (int)top, (int)(width * _dX), (int)(height * _dY)));
+            g.FillRectangle(_gradientsHatch[colorNum], new Rectangle((int)(_x / 2 - _dX * width / 2), (int)(top*_dY), (int)(width * _dX), (int)(height * _dY)));
+           // g.DrawString((top + height).ToString(CultureInfo.InvariantCulture), _drawFont, _drawBrush, 150, (float)((top + height)*_dY), _drawFormat);
         }
 
         public void GeneratePict(MainWindowViewModel vm)
         {
             _dX = _x / 3 / vm.MaxDiam();
-            _dY = _y / vm.MaxLength();
-            ConductorIsCement = vm.ConductorIsCement;
-            ConductorWidth = vm.ConductorWidth;
-            ConductorLengthEnd = vm.ConductorLengthEnd;
-            CasingShoeIsCement = vm.CasingShoeIsCement;
-            CasingShoeWidth = vm.CasingShoeWidth;
-            CasingShoeLengthEnd = vm.CasingShoeLengthEnd;
+            _dY = _y *0.9/ vm.MaxLength();
+            _conductorIsCement = vm.ConductorIsCement;
+            _conductorWidth = vm.ConductorWidth;
+            _conductorLengthEnd = vm.ConductorLengthEnd;
+            _casingShoeIsCement = vm.CasingShoeIsCement;
+            _casingShoeWidth = vm.CasingShoeWidth;
+            _casingShoeLengthEnd = vm.CasingShoeLengthEnd;
+            _lItem = vm.GetLengthList();
+            _casingPipeLengthEnd = vm.CasingPipeLengthEnd;
+            _casingPipeWidth = vm.CasingPipeWidth;
+            _casingLinerWidth = vm.CasingLinerWidth;
+            _tubingUpperSuspensionLengthEnd = vm.TubingUpperSuspensionLengthEnd;
+            _tubingUpperSuspensionWidth = vm.TubingUpperSuspensionWidth;
+            _tubingLowerSuspensionWidth = vm.TubingLowerSuspensionWidth;
+            _tubingLowerSuspensionLengthEnd = vm.TubingLowerSuspensionLengthEnd;
         }
 
         private SolidBrush GenerateBrush(int c)

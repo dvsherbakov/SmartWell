@@ -126,7 +126,7 @@ namespace SmartWell.ViewModels
                 .ToDictionary(pair => pair.Key, pair => pair.Value));
         }
 
-        private LengthItem[] GetLengthList()
+        public LengthItem[] GetLengthList()
         {
             return new List<LengthItem>
             {
@@ -264,7 +264,7 @@ namespace SmartWell.ViewModels
             }
         }
 
-        public void GenerateShema(Panel canvas)
+        public void GenerateSchema(Panel canvas)
         {
             Volumes.Clear();
             GenerateConductor(canvas);
