@@ -116,12 +116,14 @@ namespace SmartWell.Models
                     HatchingRect(gr, 0, _casingShoeWidth, _casingShoeLengthEnd, 1);
                 else
                     FreeRect(gr, 0, _casingShoeWidth, _casingShoeLengthEnd, 7);
+                SetLengthMarker(gr, _casingShoeLengthEnd, _casingShoeWidth, "Тех.Колонна");
 
                 for (var i = 0; i < _lItem.Length; i++)
                 {
                     var top = i == 0 ? 0 : _lItem[i - 1].MarkLabel;
                     var width = top < _casingPipeLengthEnd ? _casingPipeWidth : _casingLinerWidth;
                     FreeRect(gr, top, width, _lItem[i].MarkLabel - top, i);
+                    SetLengthMarker(gr, _lItem[i].MarkLabel, width, width.ToString(CultureInfo.CurrentCulture));
                 }
 
                 var heights = _lItem.ToList().Where(x => x.MarkLabel <= _tubingLowerSuspensionLengthEnd).ToArray();
@@ -154,8 +156,10 @@ namespace SmartWell.Models
             var mainTextLength = (len).ToString(CultureInfo.InvariantCulture).Length;
             var additionTextLength = additionText.Length;
             var max = new[] { mainTextLength, additionTextLength}.Max();
-            g.DrawString((len).ToString(CultureInfo.InvariantCulture), _drawFont, _drawBrush, _x-150+(max-mainTextLength)/2*8, (float)(len * _dY), _drawFormat);
-            g.DrawString(additionText, _drawFont, _drawBrush, _x - 150 + (additionTextLength/2) * 8, (float)(len * _dY-20), _drawFormat);
+            g.DrawString((len).ToString(CultureInfo.InvariantCulture), _drawFont, _drawBrush, _x-150, (float)(len * _dY), _drawFormat);
+            g.DrawString(additionText, _drawFont, _drawBrush, _x - 150, (float)(len * _dY-20), _drawFormat);
+            var pen = new Pen(_colors[0]);
+            g.DrawLine(pen, new PointF((float)(_x / 2 + _dX * width / 2+15), (float)(len * _dY)), new PointF(_x - 165, (float)(len * _dY)));
 
         }
 
