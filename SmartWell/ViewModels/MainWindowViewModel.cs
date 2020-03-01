@@ -63,20 +63,21 @@ namespace SmartWell.ViewModels
         public double TubingLowerSuspensionWidth { get; set; }
         public Geomethry TubingLowerSuspensionGeometry { get; set; }
 
-
         public readonly SplineInterpolator Scaller;
 
         public CanvasProps props { get; set; }
 
-        readonly Pipes pipes;
+        readonly Pipes _pipes;
 
-        public ObservableCollection<VolumeItem> Volumes { get; set; }
+        public VolumesList Volumes { get; set; }
 
         public MainWindowViewModel()
         {
             props = new CanvasProps();
-            pipes = new Pipes();
-            Volumes = new ObservableCollection<VolumeItem>();
+            _pipes = new Pipes();
+
+            Volumes = new VolumesList();
+
             //Кондуктор
             ConductorLengthStart = 0;
             ConductorLengthEnd = 452;
@@ -246,7 +247,7 @@ namespace SmartWell.ViewModels
                 var width = top < CasingPipeLengthEnd ? CasingPipeWidth : CasingLinerWidth;
                 var geometry = top < CasingPipeLengthEnd ? CasingPipeGeometry : CasingLinerGeometry;
                 geometry.SetLen(heights[i].MarkLabel - top);
-                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geometry });
+                // Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geometry });
                 FreeRect(canvas, top, width, heights[i].MarkLabel-top, i);
             }
         }
@@ -266,7 +267,7 @@ namespace SmartWell.ViewModels
 
         public void GenerateSchema(Panel canvas)
         {
-            Volumes.Clear();
+            
             GenerateConductor(canvas);
             GenerateTechnical(canvas);
             GenerateCasing(canvas);

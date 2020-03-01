@@ -34,6 +34,7 @@ namespace SmartWell.Models
         private double _casingLinerWidth;
         private readonly Font _drawFont;
         private readonly SolidBrush _drawBrush;
+        private readonly SolidBrush _drawTextBrush;
         private readonly StringFormat _drawFormat;
         private double _tubingUpperSuspensionLengthEnd;
         private double _tubingUpperSuspensionWidth;
@@ -47,6 +48,7 @@ namespace SmartWell.Models
 
             _drawFont = new Font(FontFamily.GenericSansSerif, 12.0F, FontStyle.Regular);
             _drawBrush = new SolidBrush(Color.Black);
+            _drawTextBrush = new SolidBrush(Color.Yellow);
             _drawFormat = new StringFormat();
 
             _gradientsHatch = new List<HatchBrush> { 
@@ -123,6 +125,7 @@ namespace SmartWell.Models
                     var top = i == 0 ? 0 : _lItem[i - 1].MarkLabel;
                     var width = top < _casingPipeLengthEnd ? _casingPipeWidth : _casingLinerWidth;
                     FreeRect(gr, top, width, _lItem[i].MarkLabel - top, i);
+                    SetVolumeText(gr, width, _lItem[i].MarkLabel, i+1);
                     SetLengthMarker(gr, _lItem[i].MarkLabel, width, width.ToString(CultureInfo.CurrentCulture));
                 }
 
@@ -131,6 +134,7 @@ namespace SmartWell.Models
                 {
                     var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
                     var width = top < _tubingUpperSuspensionLengthEnd ? _tubingUpperSuspensionWidth : _tubingLowerSuspensionWidth;
+                    SetVolumeText(gr, width, _lItem[i].MarkLabel, i + 5);
                     FreeRect(gr, top, width, heights[i].MarkLabel - top, 4 + i);
                 }
 
@@ -153,9 +157,6 @@ namespace SmartWell.Models
 
         private void SetLengthMarker(Graphics g, double len, double width, string additionText)
         {
-            var mainTextLength = (len).ToString(CultureInfo.InvariantCulture).Length;
-            var additionTextLength = additionText.Length;
-            var max = new[] { mainTextLength, additionTextLength}.Max();
             g.DrawString((len).ToString(CultureInfo.InvariantCulture), _drawFont, _drawBrush, _x-150, (float)(len * _dY), _drawFormat);
             g.DrawString(additionText, _drawFont, _drawBrush, _x - 150, (float)(len * _dY-20), _drawFormat);
             var pen = new Pen(_colors[0]);
@@ -173,6 +174,11 @@ namespace SmartWell.Models
         {
             g.FillRectangle(_gradientsHatch[colorNum], new Rectangle((int)(_x / 2 - _dX * width / 2), (int)(top*_dY), (int)(width * _dX), (int)(height * _dY)));
            // g.DrawString((top + height).ToString(CultureInfo.InvariantCulture), _drawFont, _drawBrush, 150, (float)((top + height)*_dY), _drawFormat);
+        }
+
+        private void SetVolumeText(Graphics g, double x, double y, int volumeNum)
+        {
+            g.DrawString($"V{volumeNum}", _drawFont, _drawTextBrush, (float)(_x / 2 + _dX * x / 2 - 25), (float)(y * _dY - 20), _drawFormat);
         }
 
         public void GeneratePict(MainWindowViewModel vm)

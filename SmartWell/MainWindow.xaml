@@ -18,6 +18,9 @@
         <Style x:Key="LstViewItemContainerStyle" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -287,21 +290,30 @@
                 Margin="1"
                     CornerRadius="8,8,3,3">
         </Border>
-        <Border Background="GhostWhite" Grid.Column="3" Grid.Row="1"
-                BorderBrush="Silver" BorderThickness="1" Margin="1"
+
+        <Border Grid.Column="3" Grid.Row="1"
+                Background="GhostWhite" 
+                BorderBrush="Silver" 
+                BorderThickness="1" 
+                Margin="1"
                 CornerRadius="8,8,3,3">
-            <ScrollViewer>
-                <ListView Margin="10" ItemsSource="{Binding Items}" HorizontalAlignment="Left" HorizontalContentAlignment="Left">
+                <ListView Margin="10"  
+                          ItemsSource="{Binding Volumes.List}" 
+                          HorizontalAlignment="Stretch" 
+                          
+                          HorizontalContentAlignment="Stretch">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" Header="Положение"  DisplayMemberBinding="{Binding Id}" />
-                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" Header="Объём"  DisplayMemberBinding="{Binding PipeProps.GetVolume}" />
+                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Header="Положение"  DisplayMemberBinding="{Binding Id}" 
+                                            />
+                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Header="Объём"  DisplayMemberBinding="{Binding PipeProps.GetVolume}" />
                         </GridView>
                         
                     </ListView.View>
                     ItemContainerStyle="{StaticResource LstViewItemContainerStyle}"
                 </ListView>
-            </ScrollViewer>
         </Border>
     </Grid>
 </Window>
