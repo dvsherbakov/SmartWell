@@ -70,6 +70,7 @@ namespace SmartWell.ViewModels
         readonly Pipes _pipes;
 
         public VolumesList Volumes { get; set; }
+        //public NameList Names;
 
         public MainWindowViewModel()
         {
@@ -77,6 +78,8 @@ namespace SmartWell.ViewModels
             _pipes = new Pipes();
 
             Volumes = new VolumesList();
+            Volumes.Clear();
+            //Names = new NameList();
 
             //Кондуктор
             ConductorLengthStart = 0;
@@ -246,8 +249,8 @@ namespace SmartWell.ViewModels
                 var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
                 var width = top < CasingPipeLengthEnd ? CasingPipeWidth : CasingLinerWidth;
                 var geometry = top < CasingPipeLengthEnd ? CasingPipeGeometry : CasingLinerGeometry;
-                geometry.SetLen(heights[i].MarkLabel - top);
-                // Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geometry });
+                var geom = new Geomethry(geometry.GetDOut(), geometry.ReturnW(), heights[i].MarkLabel - top);
+                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geom });
                 FreeRect(canvas, top, width, heights[i].MarkLabel-top, i);
             }
         }
@@ -267,7 +270,7 @@ namespace SmartWell.ViewModels
 
         public void GenerateSchema(Panel canvas)
         {
-            
+            Volumes.Clear();
             GenerateConductor(canvas);
             GenerateTechnical(canvas);
             GenerateCasing(canvas);

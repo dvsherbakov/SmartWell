@@ -106,6 +106,16 @@ namespace SmartWell
             MainWindowDataContext.ShowLengthMarker(gData);
             
             ExPict.GeneratePict(MainWindowDataContext);
+
+            if (MainWindowDataContext.Volumes.Count > 0)
+            {
+                lvVolumeList.Items.Clear();
+                foreach(var item in MainWindowDataContext.Volumes)
+                {
+                    lvVolumeList.Items.Add(new { Id = item.Id, Lenght = item.PipeProps.GetLen(), VolumeT = item.PipeProps.RGetSelfInVolume().ToString() }); ;
+                }
+            }
+            
            //gDigit = new PictModel(MainWindowDataContext).ReturnCanvas();
         }
 
@@ -176,7 +186,7 @@ namespace SmartWell
 
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateScheme();
+             //UpdateScheme();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

@@ -297,18 +297,19 @@
                 BorderThickness="1" 
                 Margin="1"
                 CornerRadius="8,8,3,3">
-                <ListView Margin="10"  
-                          ItemsSource="{Binding Volumes.List}" 
+                <ListView x:Name="lvVolumeList" Margin="10"  
                           HorizontalAlignment="Stretch" 
-                          
                           HorizontalContentAlignment="Stretch">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
                                             Header="Положение"  DisplayMemberBinding="{Binding Id}" 
                                             />
-                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
-                                            Header="Объём"  DisplayMemberBinding="{Binding PipeProps.GetVolume}" />
+                        <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Header="Длина"  DisplayMemberBinding="{Binding Lenght}" 
+                                            />
+                        <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Header="Объём"  DisplayMemberBinding="{Binding VolumeT}" />
                         </GridView>
                         
                     </ListView.View>

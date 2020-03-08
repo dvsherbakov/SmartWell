@@ -49,6 +49,11 @@
             return 0.25 * System.Math.PI * System.Math.Pow(Din / 1000, 2) * len;
         }
 
+        public double RGetSelfInVolume()
+        {
+            return 0.25 * System.Math.PI * System.Math.Pow(Din / 1000, 2) * Len;
+        }
+
         public double RMetVolume(double len)
         {
             var res = 0.25 * System.Math.PI * (System.Math.Pow(Dout / 1000, 2) - System.Math.Pow(Din / 1000, 2)) * len;
