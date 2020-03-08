@@ -134,8 +134,9 @@ namespace SmartWell.Models
                 {
                     var top = i == 0 ? 0 : heights[i - 1].MarkLabel;
                     var width = top < _tubingUpperSuspensionLengthEnd ? _tubingUpperSuspensionWidth : _tubingLowerSuspensionWidth;
-                    SetVolumeText(gr, width, _lItem[i].MarkLabel, i + 5);
+                    
                     FreeRect(gr, top, width, heights[i].MarkLabel - top, 4 + i);
+                    SetVolumeText2(gr, width, _lItem[i].MarkLabel, i + 5);
                 }
 
                 //using (Brush brush = new SolidBrush(
@@ -179,6 +180,11 @@ namespace SmartWell.Models
         private void SetVolumeText(Graphics g, double x, double y, int volumeNum)
         {
             g.DrawString($"V{volumeNum}", _drawFont, _drawTextBrush, (float)(_x / 2 + _dX * x / 2 - 25), (float)(y * _dY - 20), _drawFormat);
+        }
+
+        private void SetVolumeText2(Graphics g, double x, double y, int volumeNum)
+        {
+            g.DrawString($"V{volumeNum}", _drawFont, _drawTextBrush, (float)( _x/2 ), (float)(y * _dY - 20), _drawFormat);
         }
 
         public void GeneratePict(MainWindowViewModel vm)
