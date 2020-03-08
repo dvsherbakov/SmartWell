@@ -184,7 +184,7 @@ namespace SmartWell.Models
 
         private void SetVolumeText2(Graphics g, double x, double y, int volumeNum)
         {
-            g.DrawString($"V{volumeNum}", _drawFont, _drawTextBrush, (float)( _x/2 ), (float)(y * _dY - 20), _drawFormat);
+            g.DrawString($"V{volumeNum}", _drawFont, _drawTextBrush, (float)( _x/2 -_dX * x/2 +5 ), (float)(y * _dY - 20), _drawFormat);
         }
 
         public void GeneratePict(MainWindowViewModel vm)
