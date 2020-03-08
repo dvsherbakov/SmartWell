@@ -264,6 +264,9 @@ namespace SmartWell.ViewModels
                 var width = top < TubingUpperSuspensionLengthEnd
                     ? TubingUpperSuspensionWidth
                     : TubingLowerSuspensionWidth;
+                var geometry = top < TubingUpperSuspensionLengthEnd ? TubingUpperSuspensionGeometry : TubingLowerSuspensionGeometry;
+                var geom = new Geomethry(geometry.GetDOut(), geometry.ReturnW(), heights[i].MarkLabel - top);
+                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geom });
                 FreeRect(canvas, top, width, heights[i].MarkLabel - top, 4+i);
             }
         }

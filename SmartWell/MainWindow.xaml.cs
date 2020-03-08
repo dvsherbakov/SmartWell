@@ -79,7 +79,7 @@ namespace SmartWell
             gPict.Children.Clear();
 
             var pl = new Pipes();
-            if (CbCasingShoe.SelectedItem == null || CbCasingPipe.SelectedItem==null || CbCasingLiner.SelectedItem==null) return;
+            if (CbTubingLowerSuspension.SelectedItem == null||CbTubingUpperSuspension.SelectedItem == null||CbCasingShoe.SelectedItem == null || CbCasingPipe.SelectedItem==null || CbCasingLiner.SelectedItem==null) return;
             var w1 = CbCasingShoe.SelectedItem !=null ? pl.GetByIndex(((KeyValuePair<int, string>)CbCasingShoe.SelectedItem).Key).GetDOut(): 0;
             MainWindowDataContext.CasingShoeWidth = w1;
             var w2 = CbCasingPipe.SelectedItem !=null ? pl.GetByIndex(((KeyValuePair<int, string>)CbCasingPipe.SelectedItem).Key).GetDOut():0;
@@ -90,8 +90,12 @@ namespace SmartWell
             MainWindowDataContext.CasingLinerGeometry = pl.GetByIndex(((KeyValuePair<int, string>)CbCasingLiner.SelectedItem).Key);
             var w4 = CbConductor.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbConductor.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.ConductorWidth = w4;
+           
+            MainWindowDataContext.TubingUpperSuspensionGeometry = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key);
             var n1 = CbTubingUpperSuspension.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbTubingUpperSuspension.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.TubingUpperSuspensionWidth = n1;
+           
+            MainWindowDataContext.TubingLowerSuspensionGeometry = pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key);
             var n2 = CbTubingLowerSuspension.SelectedItem!=null? pl.GetByIndex(((KeyValuePair<int, string>)CbTubingLowerSuspension.SelectedItem).Key).GetDOut():0;
             MainWindowDataContext.TubingLowerSuspensionWidth = n2;
             var maxDiam = MainWindowDataContext.MaxDiam();
