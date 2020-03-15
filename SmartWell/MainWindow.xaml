@@ -300,16 +300,26 @@
                 <ListView x:Name="lvVolumeList" Margin="10"  
                           HorizontalAlignment="Stretch" 
                           HorizontalContentAlignment="Stretch">
-                    <ListView.View>
+                    <ListView.Resources>
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
+                            <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
+                        </Style>
+                    </ListView.Resources>
+                <ListView.View>
                         <GridView>
+                            
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
                                             Header="Положение"  DisplayMemberBinding="{Binding Id}" 
                                             />
-                        <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
                                             Header="Длина"  DisplayMemberBinding="{Binding Lenght}" 
                                             />
-                        <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
-                                            Header="Объём"  DisplayMemberBinding="{Binding VolumeT}" />
+                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Header="Внутрнний объём"  DisplayMemberBinding="{Binding VolumeT}" />
+
+                            <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Header="Объём металла"  DisplayMemberBinding="{Binding VolumeM}" />
                         </GridView>
                         
                     </ListView.View>

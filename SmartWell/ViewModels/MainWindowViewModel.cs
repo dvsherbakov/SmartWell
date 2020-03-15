@@ -128,6 +128,7 @@ namespace SmartWell.ViewModels
             };
             Scaller = new SplineInterpolator(known.OrderBy(x => x.Key)
                 .ToDictionary(pair => pair.Key, pair => pair.Value));
+            
         }
 
         public LengthItem[] GetLengthList()
@@ -194,7 +195,7 @@ namespace SmartWell.ViewModels
             canvas.Children.Add(heightBlock);
         }
 
-        private void FreeRect(Panel canvas, double top, double width, double height, int colorNum)
+        public void FreeRect(Panel canvas, double top, double width, double height, int colorNum)
         {
             var color = VolumeGradients.Volumes()[colorNum];
             var rectangle = new Rectangle
@@ -250,7 +251,7 @@ namespace SmartWell.ViewModels
                 var width = top < CasingPipeLengthEnd ? CasingPipeWidth : CasingLinerWidth;
                 var geometry = top < CasingPipeLengthEnd ? CasingPipeGeometry : CasingLinerGeometry;
                 var geom = new Geomethry(geometry.GetDOut(), geometry.ReturnW(), heights[i].MarkLabel - top);
-                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geom });
+                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geom, Top = top, Width = width, Height = heights[i].MarkLabel - top });
                 FreeRect(canvas, top, width, heights[i].MarkLabel-top, i);
             }
         }
@@ -266,7 +267,7 @@ namespace SmartWell.ViewModels
                     : TubingLowerSuspensionWidth;
                 var geometry = top < TubingUpperSuspensionLengthEnd ? TubingUpperSuspensionGeometry : TubingLowerSuspensionGeometry;
                 var geom = new Geomethry(geometry.GetDOut(), geometry.ReturnW(), heights[i].MarkLabel - top);
-                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geom });
+                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geom, Top = top, Width = width, Height = heights[i].MarkLabel - top });
                 FreeRect(canvas, top, width, heights[i].MarkLabel - top, 4+i);
             }
         }

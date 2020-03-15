@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Windows.Controls;
 using SmartWell.ViewModels;
 using Color = System.Drawing.Color;
 
@@ -41,12 +39,15 @@ namespace SmartWell.Models
         private double _tubingLowerSuspensionWidth;
         private double _tubingLowerSuspensionLengthEnd;
 
+        private SplineInterpolator _scaller;
+        private string _volumesLabel;
+
         public PictModel()
         {
             _x = 625*3;
             _y = 960*3;
 
-            _drawFont = new Font(FontFamily.GenericSansSerif, 12.0F, FontStyle.Regular);
+            _drawFont = new Font(FontFamily.GenericSansSerif, 14.0F, FontStyle.Regular);
             _drawBrush = new SolidBrush(Color.Black);
             _drawTextBrush = new SolidBrush(Color.Yellow);
             _drawFormat = new StringFormat();
@@ -139,20 +140,7 @@ namespace SmartWell.Models
                     SetVolumeText2(gr, width, _lItem[i].MarkLabel, i + 5);
                 }
 
-                //using (Brush brush = new SolidBrush(
-                //    Color.FromArgb(128, 128, 128, 255)))
-                //{
-                //    gr.FillEllipse(brush, 25, 5, 50, 90);
-                //}
-                //Point[] points =
-                //{
-                //    new Point(50, 5),
-                //    new Point(94, 50),
-                //    new Point(50, 94),
-                //    new Point(5, 50),
-                //};
-                //gr.DrawPolygon(Pens.Blue, points);
-
+                gr.DrawString(_volumesLabel, _drawFont, _drawBrush, 150, (_y-50), _drawFormat);
             }
         }
 
@@ -162,6 +150,8 @@ namespace SmartWell.Models
             g.DrawString(additionText, _drawFont, _drawBrush, _x - 150, (float)(len * _dY-20), _drawFormat);
             var pen = new Pen(_colors[0]);
             g.DrawLine(pen, new PointF((float)(_x / 2 + _dX * width / 2+15), (float)(len * _dY)), new PointF(_x - 165, (float)(len * _dY)));
+
+            g.DrawString((_scaller.GetValue(len)).ToString("N0"), _drawFont, _drawBrush,  150, (float)(len * _dY), _drawFormat);
 
         }
 
@@ -179,7 +169,7 @@ namespace SmartWell.Models
 
         private void SetVolumeText(Graphics g, double x, double y, int volumeNum)
         {
-            g.DrawString($"V{volumeNum}", _drawFont, _drawTextBrush, (float)(_x / 2 + _dX * x / 2 - 25), (float)(y * _dY - 20), _drawFormat);
+            g.DrawString($"V{volumeNum}", _drawFont, _drawTextBrush, (float)(_x / 2 + _dX * x / 2 - 30), (float)(y * _dY - 20), _drawFormat);
         }
 
         private void SetVolumeText2(Graphics g, double x, double y, int volumeNum)
@@ -205,6 +195,21 @@ namespace SmartWell.Models
             _tubingUpperSuspensionWidth = vm.TubingUpperSuspensionWidth;
             _tubingLowerSuspensionWidth = vm.TubingLowerSuspensionWidth;
             _tubingLowerSuspensionLengthEnd = vm.TubingLowerSuspensionLengthEnd;
+            var known = new Dictionary<double, double>
+            {
+                {0.0, 0.0},
+                {vm.CasingPipeLengthEnd, vm.CasingPipeHeightEnd},
+                {vm.CasingLinerLengthEnd, vm.CasingLinerHeightEnd},
+                {vm.TubingUpperSuspensionLengthEnd, vm.TubingUpperSuspensionHeightEnd},
+                {vm.TubingLowerSuspensionLengthEnd, vm.TubingLowerSuspensionHeightEnd}
+            };
+            _scaller = new SplineInterpolator(known.OrderBy(x => x.Key)
+                .ToDictionary(pair => pair.Key, pair => pair.Value));
+            _volumesLabel = "";
+            foreach (var item in vm.Volumes)
+            {
+                _volumesLabel += $"V{item.Id}: {item.PipeProps.RGetSelfInVolume():N2}   ";
+            }
         }
 
         private SolidBrush GenerateBrush(int c)

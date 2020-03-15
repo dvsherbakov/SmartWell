@@ -51,6 +51,7 @@ namespace SmartWell.Models
                 (Color) ColorConverter.ConvertFromString("#555555"),
                 (Color) ColorConverter.ConvertFromString("#444444"),
                 (Color) ColorConverter.ConvertFromString("#333333"),
+                (Color) ColorConverter.ConvertFromString("#ffcccb"),
             }.ToArray();
             return result;
         }

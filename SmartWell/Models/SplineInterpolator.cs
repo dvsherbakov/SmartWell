@@ -17,11 +17,6 @@ namespace SmartWell.Models
 
         private readonly double[] _a;
 
-        /// <summary>
-        /// Class constructor.
-        /// </summary>
-        /// <param name="nodes">Collection of known points for further interpolation.
-        /// Should contain at least two items.</param>
         public SplineInterpolator(IDictionary<double, double> nodes)
         {
             if (nodes == null)
@@ -41,7 +36,7 @@ namespace SmartWell.Models
             _a = new double[n];
             _h = new double[n];
 
-            for (int i = 1; i < n; i++)
+            for (var i = 1; i < n; i++)
             {
                 _h[i] = _keys[i] - _keys[i - 1];
             }
@@ -64,26 +59,17 @@ namespace SmartWell.Models
             }
         }
 
-        /// <summary>
-        /// Gets interpolated value for specified argument.
-        /// </summary>
-        /// <param name="key">Argument value for interpolation. Must be within 
-        /// the interval bounded by lowest ang highest <see cref="_keys"/> values.</param>
         public double GetValue(double key)
         {
-            int gap = 0;
+            var gap = 0;
             var previous = double.MinValue;
 
-            // At the end of this iteration, "gap" will contain the index of the interval
-            // between two known values, which contains the unknown z, and "previous" will
-            // contain the biggest z value among the known samples, left of the unknown z
-            for (int i = 0; i < _keys.Length; i++)
+           
+            for (var i = 0; i < _keys.Length; i++)
             {
-                if (_keys[i] < key && _keys[i] > previous)
-                {
-                    previous = _keys[i];
-                    gap = i + 1;
-                }
+                if (!(_keys[i] < key) || !(_keys[i] > previous)) continue;
+                previous = _keys[i];
+                gap = i + 1;
             }
 
             if (gap + 1 > _h.Length)
@@ -98,11 +84,6 @@ namespace SmartWell.Models
                 (-_a[gap] / 6 * (x1 + _h[gap]) * x2 + _values[gap]) * x1) / _h[gap];
         }
 
-
-        /// <summary>
-        /// Solve linear system with tridiagonal n*n matrix "a"
-        /// using Gaussian elimination without pivoting.
-        /// </summary>
         private static void SolveTridiag(double[] sub, double[] diag, double[] sup, ref double[] b, int n)
         {
             int i;

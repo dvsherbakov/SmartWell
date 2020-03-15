@@ -60,6 +60,11 @@
             return res;
         }
 
+        public double RMetSelfVolume()
+        {
+            return 0.25 * System.Math.PI * (System.Math.Pow(Dout / 1000, 2) - System.Math.Pow(Din / 1000, 2)) * Len;
+        }
+
         public void SetLen(double len)
         {
             Len = len;

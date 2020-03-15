@@ -1,9 +1,12 @@
-﻿using SmartWell.Models;
+﻿using System;
+using SmartWell.Models;
 using SmartWell.ViewModels;
 using System.Windows;
 using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -111,16 +114,16 @@ namespace SmartWell
             
             ExPict.GeneratePict(MainWindowDataContext);
 
-            if (MainWindowDataContext.Volumes.Count > 0)
+            if (MainWindowDataContext.Volumes.Count <= 0) return;
+            lvVolumeList.Items.Clear();
+            foreach(var item in MainWindowDataContext.Volumes)
             {
-                lvVolumeList.Items.Clear();
-                foreach(var item in MainWindowDataContext.Volumes)
-                {
-                    lvVolumeList.Items.Add(new { Id = item.Id, Lenght = item.PipeProps.GetLen(), VolumeT = item.PipeProps.RGetSelfInVolume().ToString() }); ;
-                }
+                lvVolumeList.Items.Add(new TestClass{ Id = item.Id, Lenght = item.PipeProps.GetLen(), 
+                    VolumeT = item.PipeProps.RGetSelfInVolume().ToString("N2"), 
+                    VolumeM = item.PipeProps.RMetSelfVolume().ToString("N2")
+                    
+                }); 
             }
-            
-           //gDigit = new PictModel(MainWindowDataContext).ReturnCanvas();
         }
 
         protected override void OnRender(DrawingContext dc)
@@ -195,10 +198,35 @@ namespace SmartWell
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-
             ExPict.SavePict();
+        }
+
+        private void ListViewItem_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+            if (!(sender is ListViewItem item)) return;
+            var dc = item.DataContext as TestClass;
+            if (dc == null) return;
+
+            var values = MainWindowDataContext.Volumes.FirstOrDefault(x => x.Id == dc.Id);
+            if (values == null) return;
+            MainWindowDataContext.FreeRect(gData, values.Top, values.Width, values.Height, 10);
+        }
+
+        private void ListViewItem_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            gData.Children.Clear();
         }
 
 
     }
+
+    public class TestClass
+    {
+        public int Id { get; set; }
+        public double Lenght { get; set; }
+        public string VolumeT { get; set; }
+        public string VolumeM { get; set; }
+    }
+    
 }
