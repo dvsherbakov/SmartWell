@@ -18,9 +18,6 @@
         <Style x:Key="LstViewItemContainerStyle" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
-        <Style TargetType="ListViewItem">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        </Style>
     </Window.Resources>
 
     <Grid>
@@ -297,23 +294,40 @@
                 BorderThickness="1" 
                 Margin="1"
                 CornerRadius="8,8,3,3">
-                <ListView x:Name="lvVolumeList" Margin="10"  
+                <ListView x:Name="LvVolumeList" Margin="10"  
                           HorizontalAlignment="Stretch" 
+
                           HorizontalContentAlignment="Stretch">
                     <ListView.Resources>
                         <Style TargetType="ListViewItem">
                             <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
                             <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
                         </Style>
                     </ListView.Resources>
+
                 <ListView.View>
                         <GridView>
                             
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
                                             Header="Положение"  DisplayMemberBinding="{Binding Id}" 
                                             />
+                        <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Header ="Отметить">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsChecked}">
+                                    </CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                            
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
-                                            Header="Длина"  DisplayMemberBinding="{Binding Lenght}" 
+                                            Header="Длина"  DisplayMemberBinding="{Binding Length}" 
                                             />
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
                                             Header="Внутрнний объём"  DisplayMemberBinding="{Binding VolumeT}" />

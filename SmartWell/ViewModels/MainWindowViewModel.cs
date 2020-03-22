@@ -251,7 +251,7 @@ namespace SmartWell.ViewModels
                 var width = top < CasingPipeLengthEnd ? CasingPipeWidth : CasingLinerWidth;
                 var geometry = top < CasingPipeLengthEnd ? CasingPipeGeometry : CasingLinerGeometry;
                 var geom = new Geomethry(geometry.GetDOut(), geometry.ReturnW(), heights[i].MarkLabel - top);
-                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geom, Top = top, Width = width, Height = heights[i].MarkLabel - top });
+                Volumes.Add(new VolumeItem { Id = Volumes.Count + 1, PipeProps = geom, Top = top, Width = width, Height = heights[i].MarkLabel - top, IsChecked = true});
                 FreeRect(canvas, top, width, heights[i].MarkLabel-top, i);
             }
         }

@@ -13,9 +13,10 @@ namespace SmartWell.Models
     {
         public int Id { get; set; }
         public Geomethry PipeProps { get; set; }
-        public double Top;
-        public double Width;
-        public double Height;
+        public double Top { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public bool IsChecked { get; set; }
     }
 
     public class VolumesList : ObservableCollection<VolumeItem>

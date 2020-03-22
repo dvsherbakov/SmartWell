@@ -104,7 +104,7 @@ namespace SmartWell
             var maxDiam = MainWindowDataContext.MaxDiam();
             var fHeight = MainWindowDataContext.MaxLength();
 
-            var dx = sWidth / 3 / maxDiam;
+            var dx = sWidth / 2 / maxDiam;
             var dy = sHeight / fHeight;
             MainWindowDataContext.props.dx = dx;
             MainWindowDataContext.props.dy = dy;
@@ -115,13 +115,13 @@ namespace SmartWell
             ExPict.GeneratePict(MainWindowDataContext);
 
             if (MainWindowDataContext.Volumes.Count <= 0) return;
-            lvVolumeList.Items.Clear();
+            LvVolumeList.Items.Clear();
             foreach(var item in MainWindowDataContext.Volumes)
             {
-                lvVolumeList.Items.Add(new TestClass{ Id = item.Id, Lenght = item.PipeProps.GetLen(), 
+                LvVolumeList.Items.Add(new TestClass{ Id = item.Id, Length = item.PipeProps.GetLen(), 
                     VolumeT = item.PipeProps.RGetSelfInVolume().ToString("N2"), 
-                    VolumeM = item.PipeProps.RMetSelfVolume().ToString("N2")
-                    
+                    VolumeM = item.PipeProps.RMetSelfVolume().ToString("N2"),
+                    IsChecked = item.IsChecked
                 }); 
             }
         }
@@ -224,9 +224,10 @@ namespace SmartWell
     public class TestClass
     {
         public int Id { get; set; }
-        public double Lenght { get; set; }
+        public double Length { get; set; }
         public string VolumeT { get; set; }
         public string VolumeM { get; set; }
+        public bool IsChecked { get; set; }
     }
     
 }
