@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -71,9 +72,12 @@ namespace SmartWell.ViewModels
 
         public VolumesList Volumes { get; set; }
         //public NameList Names;
+        public string VolumeSumString { get; set; }
 
         public MainWindowViewModel()
         {
+            VolumeSumString = "0";
+
             props = new CanvasProps();
             _pipes = new Pipes();
 
@@ -290,5 +294,22 @@ namespace SmartWell.ViewModels
         {
             return (new[] { CasingShoeLengthEnd, CasingPipeLengthEnd, CasingLinerLengthEnd }).Max();
         }
+
+        public void EncountVolumes()
+        {
+            var inSum = 0.0;
+            var metSum = 0.0;
+            foreach (var item in Volumes)
+            {
+                if (item.IsChecked)
+                {
+                    inSum += item.PipeProps.RGetSelfInVolume();
+                    metSum += item.PipeProps.RMetSelfVolume();
+                }
+            }
+
+            VolumeSumString = $"Внутр. объем={inSum:N3}; Объем метала={metSum:N3}";
+        }
+
     }
 }

@@ -286,6 +286,7 @@
                     BorderThickness="1" 
                 Margin="1"
                     CornerRadius="8,8,3,3">
+            <TextBlock x:Name="VolumeText" Text="{Binding VolumeSumString}"></TextBlock>
         </Border>
 
         <Border Grid.Column="3" Grid.Row="1"
@@ -296,7 +297,6 @@
                 CornerRadius="8,8,3,3">
                 <ListView x:Name="LvVolumeList" Margin="10"  
                           HorizontalAlignment="Stretch" 
-
                           HorizontalContentAlignment="Stretch">
                     <ListView.Resources>
                         <Style TargetType="ListViewItem">
@@ -307,6 +307,8 @@
                         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
                             <Setter Property="VerticalAlignment" Value="Center"/>
                             <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <EventSetter Event="Checked" Handler="VolumesRefreshSum" />
+                            <EventSetter Event="Unchecked" Handler="VolumesRefreshSum" ></EventSetter>
                         </Style>
                     </ListView.Resources>
 
@@ -320,7 +322,7 @@
                                             Header ="Отметить">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsChecked}">
+                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}">
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

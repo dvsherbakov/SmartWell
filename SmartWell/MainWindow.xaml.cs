@@ -205,8 +205,7 @@ namespace SmartWell
         {
 
             if (!(sender is ListViewItem item)) return;
-            var dc = item.DataContext as TestClass;
-            if (dc == null) return;
+            if (!(item.DataContext is TestClass dc)) return;
 
             var values = MainWindowDataContext.Volumes.FirstOrDefault(x => x.Id == dc.Id);
             if (values == null) return;
@@ -218,7 +217,15 @@ namespace SmartWell
             gData.Children.Clear();
         }
 
-
+        private void VolumesRefreshSum(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            if (!(sender is CheckBox item)) return;
+            if (!(item.DataContext is TestClass dc)) return;
+            MainWindowDataContext.Volumes.FirstOrDefault(x => x.Id == dc.Id).IsChecked = dc.IsChecked;
+            MainWindowDataContext.EncountVolumes();
+            VolumeText.Text = MainWindowDataContext.VolumeSumString;
+        }
     }
 
     public class TestClass
