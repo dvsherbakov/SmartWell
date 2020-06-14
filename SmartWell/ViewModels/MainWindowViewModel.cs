@@ -73,6 +73,8 @@ namespace SmartWell.ViewModels
         public VolumesList Volumes { get; set; }
         //public NameList Names;
         public string VolumeSumString { get; set; }
+        public string InsideVolume { get; private set; }
+        public string MetallVolume { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -283,6 +285,8 @@ namespace SmartWell.ViewModels
             GenerateTechnical(canvas);
             GenerateCasing(canvas);
             GenerateTubing(canvas);
+            SumVolumes();
+            EncountVolumes();
         }
 
         public double MaxDiam()
@@ -295,20 +299,24 @@ namespace SmartWell.ViewModels
             return (new[] { CasingShoeLengthEnd, CasingPipeLengthEnd, CasingLinerLengthEnd }).Max();
         }
 
+        private void SumVolumes()
+        {
+            InsideVolume = Volumes.Sum(x => x.PipeProps.RGetSelfInVolume()).ToString("F3");
+            MetallVolume = Volumes.Sum(x => x.PipeProps.RMetSelfVolume()).ToString("F3");
+        }
         public void EncountVolumes()
         {
             var inSum = 0.0;
             var metSum = 0.0;
             foreach (var item in Volumes)
             {
-                if (item.IsChecked)
-                {
-                    inSum += item.PipeProps.RGetSelfInVolume();
-                    metSum += item.PipeProps.RMetSelfVolume();
-                }
+                if (!item.IsChecked) continue;
+                inSum += item.PipeProps.RGetSelfInVolume();
+                metSum += item.PipeProps.RMetSelfVolume();
             }
 
             VolumeSumString = $"Внутр. объем={inSum:N3}; Объем метала={metSum:N3}";
+            
         }
 
     }

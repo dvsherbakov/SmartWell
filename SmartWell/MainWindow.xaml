@@ -295,9 +295,13 @@
                 BorderThickness="1" 
                 Margin="1"
                 CornerRadius="8,8,3,3">
-                <ListView x:Name="LvVolumeList" Margin="10"  
-                          HorizontalAlignment="Stretch" 
+            <StackPanel Height="Auto">
+            <ListView x:Name="LvVolumeList" Margin="5,5,5,0" 
+                      Height="Auto"
+                      BorderThickness="1"
+                      HorizontalAlignment="Stretch" 
                           HorizontalContentAlignment="Stretch">
+                    
                     <ListView.Resources>
                         <Style TargetType="ListViewItem">
                             <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
@@ -317,8 +321,10 @@
                             
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
                                             Header="Положение"  DisplayMemberBinding="{Binding Id}" 
+                                            Width="100"
                                             />
-                        <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                        <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}"
+                                        Width="80"
                                             Header ="Отметить">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -329,18 +335,39 @@
                         </GridViewColumn>
                             
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Width="55"
                                             Header="Длина"  DisplayMemberBinding="{Binding Length}" 
                                             />
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
-                                            Header="Внутрнний объём"  DisplayMemberBinding="{Binding VolumeT}" />
+                                            Width="110"
+                                            Header="Внутр. объём"  DisplayMemberBinding="{Binding VolumeT}" />
 
                             <GridViewColumn HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                            Width="120"
                                             Header="Объём металла"  DisplayMemberBinding="{Binding VolumeM}" />
                         </GridView>
                         
                     </ListView.View>
                     ItemContainerStyle="{StaticResource LstViewItemContainerStyle}"
                 </ListView>
+                <Grid Margin="6,0,5,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="55"/>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0">Итого:</Label>
+                    <TextBlock Grid.Column="3"
+                               Padding="1"
+                               Text="{Binding InsideVolume}"/>
+                    <TextBlock Grid.Column="4" 
+                               Padding="1"
+                               Text="{Binding MetallVolume}"/>
+                </Grid>
+            </StackPanel>
         </Border>
+            
     </Grid>
 </Window>
